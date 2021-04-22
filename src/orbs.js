@@ -1,3 +1,5 @@
+const still = "still"
+const update = "update"
 class newOrbsRenderer {
   constructor(opts) {
     if (opts.canvas) {
@@ -7,7 +9,8 @@ class newOrbsRenderer {
     }
     this.canvasId = this.canvas.id
     this.bgColor = opts.bgColor || "#ffffff"
-    
+    this.fps = opts.fps || 30
+    thia.renderState = opts.renderState || still
     
     function newCanvas() {
       let can = document.createElement("canvas")
