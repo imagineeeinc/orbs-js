@@ -1,3 +1,8 @@
-var can = new ORBS.renderer({})
-var car = "n"
-can.draw(car)
+ORBS.setFullScreenGameCss()
+var renderer = new ORBS.renderer({renderState: update})
+var scene = new ORBS.scene()
+renderer.scene.add()
+console.log(renderer)
+console.log(scene)
+renderer.setSize(window.innerWidth, window.innerHeight)
+document.body.append(renderer.canvas)
