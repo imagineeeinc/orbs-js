@@ -127,6 +127,16 @@ class newOrbsRenderer {
     this.canvas = can
     this.canvasId = this.canvas.id
   }
+  setRenderState(state) {
+    this.renderState = state || still
+    if (this.renderState == still) {
+      this.updater = false
+    } else if (this.renderState == update) {
+      this.updater = true
+    } else {
+      console.error("no proper given renderState.\noptions:( update | still )");
+    }
+  }
   setSize(x, y) {
     this.canvas.width = x
     this.canvas.height = y
