@@ -45,9 +45,17 @@ class CaveRenderEngine {
     //draw objects
     for (var i=0;i<this.scene.length;i++) {
       let obj = this.scene[i]
+      if (obj.scripts != null) {
+        let res
+        for (var j=0;j<obj.scripts.length;j++) {
+          let s = obj.scripts[j].script
+          res = s(obj)
+          obj = res
+        }
+      }
       if (obj.type == mesh) {
         if (obj.drawType == rect) {
-          let response = this._drawers.rect(ctx, [obj.x, obj.y, obj.width, obj.height, obj.color])
+          let response = this._drawers.rect(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width, obj.height, obj.color])
         }
       }
     }
@@ -58,6 +66,7 @@ class CaveRenderEngine {
       rect: (function(ctx, opts){
         ctx.fillStyle = opts[4]
         ctx.fillRect(opts[0], opts[1], opts[2], opts[3]);
+        return true
       })
     }
     return drawers
@@ -140,6 +149,7 @@ class newOrbsObj {
     if (this.type = mesh) {
       this.drawType = opts.drawType
     }
+    this.scripts = []
     this.x = 0
     this.y = 0
     this.width = 0
@@ -151,6 +161,9 @@ class newOrbsObj {
   }
   attachScript(s) {
     this.scripts.push(s)
+  }
+  setVars(name, value) {
+    this[name] = value
   }
   drawFunc(opts) {
     if (this.drawType = rect) {
@@ -165,6 +178,7 @@ class newOrbsObj {
 
 class newOrbsScriptComponent {
   constructor() {this.script = null}
+  attachScript(s) {this.script = s}
 }
 
 const ORBS = {
