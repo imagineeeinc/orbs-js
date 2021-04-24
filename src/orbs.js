@@ -48,8 +48,10 @@ class CaveRenderEngine {
       if (obj.scripts != null) {
         let res
         for (var j=0;j<obj.scripts.length;j++) {
+          let importing = obj.scripts[j].importScript || function() {return null}
           let s = obj.scripts[j].script
-          res = s(obj)
+          importing = importing()
+          res = s(obj, importing)
           obj = res
         }
       }
@@ -187,8 +189,9 @@ class newOrbsObj {
 }
 
 class newOrbsScriptComponent {
-  constructor() {this.script = null}
+  constructor() {this.script = function() {return null}}
   attachScript(s) {this.script = s}
+  imports(im) {this.importScript = im}
 }
 
 const ORBS = {
