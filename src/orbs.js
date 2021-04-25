@@ -6,6 +6,7 @@ const canvasShape = mesh
 const texture = "texture"
 
 const rect = "rect"
+const circle = "circle"
 const paths = "paths"
 
 const hitbox = "hitbox"
@@ -46,10 +47,11 @@ class CaveRenderEngine {
     for (var i=0;i<this.scene.length;i++) {
       let obj = this.scene[i]
       if (obj.scripts != null) {
+        let sc = obj.scripts
         let res
-        for (var j=0;j<obj.scripts.length;j++) {
-          let importing = obj.scripts[j].importScript || function() {return null}
-          let s = obj.scripts[j].script
+        for (var j=0;j<sc.length;j++) {
+          let importing = sc[j].importScript || function() {return null}
+          let s = sc[j].script
           importing = importing()
           res = s(obj, importing)
           obj = res
@@ -58,6 +60,8 @@ class CaveRenderEngine {
       if (obj.type == mesh) {
         if (obj.drawType == rect) {
           let response = this._drawers.rect(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width, obj.height, obj.color])
+        } else if (obj.drawType == circle) {
+          let response = this._drawers.circle(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width, obj.color])
         }
       }
     }
@@ -68,6 +72,12 @@ class CaveRenderEngine {
       rect: (function(ctx, opts){
         ctx.fillStyle = opts[4]
         ctx.fillRect(opts[0], opts[1], opts[2], opts[3]);
+        return true
+      }),
+      circle: (function(ctx, opts){
+        ctx.arc(opts[0], opts[1], opts[2], 2*Math.PI);
+        ctx.fillStyle = opts[3]
+        ctx.fill()
         return true
       })
     }
@@ -178,12 +188,17 @@ class newOrbsObj {
     this[name] = value
   }
   drawFunc(opts) {
-    if (this.drawType = rect) {
+    if (this.drawType == rect) {
       this.x = opts[0]
       this.y = opts[1]
       this.width = opts[2]
       this.height = opts[3]
       this.color = opts[4]
+    } else if (this.drawType == circle) {
+      this.x = opts[0]
+      this.y = opts[1]
+      this.width = opts[2]
+      this.color = opts[3]
     }
   }
 }
