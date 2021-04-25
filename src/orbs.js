@@ -91,6 +91,7 @@ class newOrbsScene {
   add(obj) {
     this.vScene.push(obj)
   }
+  scene() {return this.vScene}
 }
 //TODO: scripting system
 class newOrbsRenderer {
