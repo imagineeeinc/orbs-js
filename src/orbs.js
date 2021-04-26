@@ -28,6 +28,20 @@ class CaveRenderEngine {
     document.body.append(store)
     return store.id
   }
+  zeroToCenter(is){
+    let canvas = document.getElementById(this.canvasId)
+    //let ctx = canvas.getContext('2d')
+    if (canvas.getContext) {
+      var ctx = canvas.getContext('2d');
+    } else {
+      return [false, error.noSupport]
+    }
+    if (is === true) {
+      ctx.translate(canvas.width/2, canvas.height/2)
+    } else if (is === false) {
+      ctx.translate(0,0)
+    } else {return [false, "no given boolen"]}
+  }
   //TODO: draw scene function
   draw(scene) {
     this.scene = scene.vScene
@@ -75,7 +89,7 @@ class CaveRenderEngine {
         return true
       }),
       circle: (function(ctx, opts){
-        ctx.arc(opts[0], opts[1], opts[2], 2*Math.PI);
+        ctx.arc(opts[0], opts[1], opts[2], 0, 2*Math.PI)
         ctx.fillStyle = opts[3]
         ctx.fill()
         return true
@@ -136,6 +150,7 @@ class newOrbsRenderer {
       }
     }
   }
+  zeroToCenter(is){this.cave.zeroToCenter(is)}
   attachCanvas(can) {
     this.canvas = can
     this.canvasId = this.canvas.id
@@ -165,19 +180,19 @@ class newOrbsRenderer {
   }
 }
 
-//TODO: do orbs object system and texture system, component script system
+//TODO: do orbs object system and texture system
 class newOrbsObj {
   constructor(opts) {
     this.type = opts.type || mesh
-    if (this.type = mesh) {
+    if (this.type == mesh) {
       this.drawType = opts.drawType
     }
     this.scripts = []
-    this.x = 0
-    this.y = 0
-    this.width = 0
-    this.height = 0
-    this.color = "#000"
+    this.x = opts.x || 0
+    this.y = opts.y || 0
+    this.width = opts.width || 0
+    this.height = opts.height || 0
+    this.color = opts.color || "#000"
   }
   _giveCodec() {
     return {type: this.type, drawType: this.drawType, x: this.x, y: this.y, width: this.width, height: this.height, color: this.color}

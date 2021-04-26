@@ -59,7 +59,7 @@ rects2.setVars("xMove", -3)
 scene.add(rects2)
 
 var scriptCircle = new ORBS.scripComponent()
-scriptCircle.attachScript(function(self, open) {
+scriptCircle.attachScript(function(self) {
     if (self.y > window.innerHeight - 50) {
         self.yMove = -3
     }
@@ -74,9 +74,10 @@ scriptCircle.attachScript(function(self, open) {
     }
     self.x = self.x + self.xMove
     self.y = self.y + self.yMove
+    return self
 })
 var circles = new ORBS.obj({type: mesh, drawType: circle})
-circles.drawFunc([window.innerWidth-50, 50, 150, "orange"])
+circles.drawFunc([window.innerWidth/2, 60, 50, "orange"])
 circles.attachScript(scriptCircle)
 circles.setVars("yMove", -3)
 circles.setVars("xMove", -3)
