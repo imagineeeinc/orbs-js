@@ -3,6 +3,7 @@ const update = "update"
 
 const mesh = "mesh"
 const canvasShape = mesh
+const sprite = "sprite"
 const texture = "texture"
 
 const rect = "rect"
@@ -10,6 +11,7 @@ const circle = "circle"
 const paths = "paths"
 
 const hitbox = "hitbox"
+var curImg = new Image()
 
 const error = {
   noSupport: "Your browser dose not support canvas"
@@ -73,9 +75,14 @@ class CaveRenderEngine {
       }
       if (obj.type == mesh) {
         if (obj.drawType == rect) {
-          let response = this._drawers.rect(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width, obj.height, obj.color])
+          let response = this._drawers.rect(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width * obj.scale, obj.height * obj.scale, obj.color])
         } else if (obj.drawType == circle) {
-          let response = this._drawers.circle(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width, obj.color])
+          let response = this._drawers.circle(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width*obj.scale, obj.color])
+        }
+      } else if (obj.type == sprite) {
+        if (obj.drawType == texture) {
+          curImg.src = obj.texture
+          let response = this._drawers.texture(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width * obj.scale, obj.height * obj.scale, obj.texture])
         }
       }
     }
@@ -89,9 +96,16 @@ class CaveRenderEngine {
         return true
       }),
       circle: (function(ctx, opts){
+        ctx.beginPath();
         ctx.arc(opts[0], opts[1], opts[2], 0, 2*Math.PI)
         ctx.fillStyle = opts[3]
         ctx.fill()
+        ctx.closePath()
+        //ctx.clearRect(opts[0]-opts[2], opts[1]-opts[2], opts[2]*2, opts[2]*2);
+        return true
+      }),
+      texture: (function(ctx, opts){
+        ctx.drawImage(curImg,opts[0], opts[1], opts[2], opts[3])
         return true
       })
     }
@@ -142,7 +156,7 @@ class newOrbsRenderer {
     setInterval(() => updateScript(cave, this.scene, this.updater), 1000/this.fps)
     function updateScript(cave, scene, update) {
       if (update === true) {
-        let response = cave.draw(scene)
+        let response = requestAnimationFrame(cave.draw(scene))
         if (response[0] === false) {
           alert(response[1])
           console.alert(response[1])
@@ -154,6 +168,13 @@ class newOrbsRenderer {
   attachCanvas(can) {
     this.canvas = can
     this.canvasId = this.canvas.id
+  }
+  addToImgCache(img, name) {
+    let store = document.getElementById(this.storeId)
+    let image = document.createElement("img")
+    image.src = img
+    image.className = name
+    store.append(image)
   }
   setRenderState(state) {
     this.renderState = state || still
@@ -187,12 +208,20 @@ class newOrbsObj {
     if (this.type == mesh) {
       this.drawType = opts.drawType
     }
+    if (this.drawType) {
+      this.drawType = opts.drawType || texture
+    } else {
+      this.drawType = texture
+    }
     this.scripts = []
     this.x = opts.x || 0
     this.y = opts.y || 0
     this.width = opts.width || 0
     this.height = opts.height || 0
     this.color = opts.color || "#000"
+    this.scale = opts.scale || 1
+    this.rotation = opts.rotation || 0
+    this.texture = null
   }
   _giveCodec() {
     return {type: this.type, drawType: this.drawType, x: this.x, y: this.y, width: this.width, height: this.height, color: this.color}
@@ -204,18 +233,45 @@ class newOrbsObj {
     this[name] = value
   }
   drawFunc(opts) {
-    if (this.drawType == rect) {
-      this.x = opts[0]
-      this.y = opts[1]
-      this.width = opts[2]
-      this.height = opts[3]
-      this.color = opts[4]
-    } else if (this.drawType == circle) {
-      this.x = opts[0]
-      this.y = opts[1]
-      this.width = opts[2]
-      this.color = opts[3]
+    if (this.type == mesh) {
+      if (this.drawType == rect) {
+        this.x = opts[0]
+        this.y = opts[1]
+        this.width = opts[2]
+        this.height = opts[3]
+        this.color = opts[4]
+        this.scale = opts[5] || 1
+      } else if (this.drawType == circle) {
+        this.x = opts[0]
+        this.y = opts[1]
+        this.width = opts[2]
+        this.color = opts[3]
+        this.scale = opts[4] || 1
+      }
+    } else if (this.type == sprite) {
+      if (this.drawType == texture) {
+        this.x = opts[0]
+        this.y = opts[1]
+        this.width = opts[2]
+        this.height = opts[3]
+        this.texture = opts[4]
+        this.scale = opts[5] || 1
+      }
     }
+  }
+  move(v) {
+    let vect = v._giveVector()
+    this.x = this.x + vect[0] || this.x
+    this.y = this.y + vect[1] || this.y
+    this.scale = this.scale + vect[2] || this.scale
+    this.rotation = this.rotation + vect[3] || this.rotation
+  }
+  setPos(v) {
+    let vect = v._giveVector()
+    this.x = vect[0] || this.x
+    this.y = vect[1] || this.y
+    this.scale = vect[2] || this.scale
+    this.rotation = vect[3] || this.rotation
   }
 }
 
@@ -223,6 +279,25 @@ class newOrbsScriptComponent {
   constructor() {this.script = function() {return null}}
   attachScript(s) {this.script = s}
   imports(im) {this.importScript = im}
+}
+class Vector {
+  constructor(x, y, scale, rotation) {
+    this.x = x || null
+    this.y = y || null
+    this.scale = scale || null
+    this.rot = rotation || null
+  }
+  _giveVector(){return [this.x, this.y, this.scale, this.rot]}
+}
+
+function Vect(x, y, s, r) {
+  return new Vector(x, y, s, r)
+}
+
+class primitiveGravity {
+  constructor(maxVelo) {
+    console.log("gravity is not yet implemented")
+  }
 }
 
 const ORBS = {
@@ -240,7 +315,11 @@ const ORBS = {
   renderer: newOrbsRenderer,
   scene: newOrbsScene,
   obj: newOrbsObj,
-  scripComponent: newOrbsScriptComponent
+  scripComponent: newOrbsScriptComponent,
+  Vector: Vector,
+  components: {
+    primitiveGravity: primitiveGravity
+  }
 }
 
 function echo(txt, ln) {
