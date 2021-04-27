@@ -156,7 +156,7 @@ class newOrbsRenderer {
     setInterval(() => updateScript(cave, this.scene, this.updater), 1000/this.fps)
     function updateScript(cave, scene, update) {
       if (update === true) {
-        let response = requestAnimationFrame(cave.draw(scene))
+        let response = cave.draw(scene)
         if (response[0] === false) {
           alert(response[1])
           console.alert(response[1])
