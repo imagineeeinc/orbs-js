@@ -95,5 +95,5 @@ renderer.startRenderCycle()
 renderer.setScene(scene)
 
 var image = new ORBS.obj({type: sprite})
-image.drawFunc([window.innerWidth/2, 100, 189, 189, "https://imagineeeinc.github.io/PickQuick/picker/Favicon/android-chrome-512x512.png"])
+image.drawFunc([window.innerWidth/2, 100, 189, 189, imgStore.pickquick])
 scene.add(image)

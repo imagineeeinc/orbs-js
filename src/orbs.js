@@ -11,7 +11,7 @@ const circle = "circle"
 const paths = "paths"
 
 const hitbox = "hitbox"
-var curImg = new Image()
+var imgStore = {}
 
 const error = {
   noSupport: "Your browser dose not support canvas"
@@ -32,7 +32,6 @@ class CaveRenderEngine {
   }
   zeroToCenter(is){
     let canvas = document.getElementById(this.canvasId)
-    //let ctx = canvas.getContext('2d')
     if (canvas.getContext) {
       var ctx = canvas.getContext('2d');
     } else {
@@ -48,7 +47,6 @@ class CaveRenderEngine {
   draw(scene) {
     this.scene = scene.vScene
     let canvas = document.getElementById(this.canvasId)
-    //let ctx = canvas.getContext('2d')
     if (canvas.getContext) {
       var ctx = canvas.getContext('2d');
     } else {
@@ -81,7 +79,6 @@ class CaveRenderEngine {
         }
       } else if (obj.type == sprite) {
         if (obj.drawType == texture) {
-          curImg.src = obj.texture
           let response = this._drawers.texture(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width * obj.scale, obj.height * obj.scale, obj.texture])
         }
       }
@@ -101,11 +98,10 @@ class CaveRenderEngine {
         ctx.fillStyle = opts[3]
         ctx.fill()
         ctx.closePath()
-        //ctx.clearRect(opts[0]-opts[2], opts[1]-opts[2], opts[2]*2, opts[2]*2);
         return true
       }),
       texture: (function(ctx, opts){
-        ctx.drawImage(curImg,opts[0], opts[1], opts[2], opts[3])
+        ctx.drawImage(opts[4],opts[0], opts[1], opts[2], opts[3])
         return true
       })
     }
@@ -171,10 +167,9 @@ class newOrbsRenderer {
   }
   addToImgCache(img, name) {
     let store = document.getElementById(this.storeId)
-    let image = document.createElement("img")
+    let image = new Image()
     image.src = img
-    image.className = name
-    store.append(image)
+    imgStore[name] = image
   }
   setRenderState(state) {
     this.renderState = state || still
