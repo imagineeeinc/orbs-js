@@ -4,11 +4,13 @@ const update = "update"
 const mesh = "mesh"
 const canvasShape = mesh
 const sprite = "sprite"
-const texture = "texture"
+const text = "text"
 
+const texture = "texture"
 const rect = "rect"
 const circle = "circle"
 const paths = "paths"
+const plainText = "plainText"
 
 const hitbox = "hitbox"
 var imgStore = {}
@@ -16,6 +18,8 @@ var imgStore = {}
 const error = {
   noSupport: "Your browser dose not support canvas"
 }
+var lastUpdate = Date.now()
+var deltaTime = 0
 
 class CaveRenderEngine {
   constructor(opts) {
@@ -44,7 +48,8 @@ class CaveRenderEngine {
     } else {return [false, "no given boolen"]}
   }
   //TODO: draw scene function
-  draw(scene) {
+  draw(scene, fps) {
+    this.fps = fps
     this.scene = scene.vScene
     let canvas = document.getElementById(this.canvasId)
     if (canvas.getContext) {
@@ -53,10 +58,11 @@ class CaveRenderEngine {
       return [false, error.noSupport]
     }
     //defaults
-    ctx.font = "30px Arial";
+    ctx.font = "30px Arial"
     //background render code
     ctx.fillStyle = this.bgColor
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(-50, -50, canvas.width+100, canvas.height+100)
+    ctx.fillRect(-50, -50, canvas.width+100, canvas.height+100)
     //draw objects
     for (var i=0;i<this.scene.length;i++) {
       let obj = this.scene[i]
@@ -67,7 +73,7 @@ class CaveRenderEngine {
           let importing = sc[j].importScript || function() {return null}
           let s = sc[j].script
           importing = importing()
-          res = s(obj, importing)
+          res = s(obj, importing, {fps: this.fps, delta: deltaTime})
           obj = res
         }
       }
@@ -89,7 +95,7 @@ class CaveRenderEngine {
     let drawers = {
       rect: (function(ctx, opts){
         ctx.fillStyle = opts[4]
-        ctx.fillRect(opts[0], opts[1], opts[2], opts[3]);
+        ctx.fillRect(opts[0], opts[1], opts[2], opts[3])
         return true
       }),
       circle: (function(ctx, opts){
@@ -149,10 +155,17 @@ class newOrbsRenderer {
   }
   startRenderCycle() {
     let cave = this.cave
-    setInterval(() => updateScript(cave, this.scene, this.updater), 1000/this.fps)
-    function updateScript(cave, scene, update) {
+    setInterval(() => updateScript(cave, this.scene, this.updater, this.fps), 1000/this.fps)
+    setInterval(tick, 0)
+    function tick() {
+      var now = Date.now();
+      var dt = now - lastUpdate;
+      lastUpdate = now;
+      deltaTime = dt/100 
+    }
+    function updateScript(cave, scene, update, fps) {
       if (update === true) {
-        let response = cave.draw(scene)
+        let response = cave.draw(scene, fps)
         if (response[0] === false) {
           alert(response[1])
           console.alert(response[1])
@@ -251,6 +264,14 @@ class newOrbsObj {
         this.height = opts[3]
         this.texture = opts[4]
         this.scale = opts[5] || 1
+      }
+    } else if (this.type == text) {
+      if (this.drawType == plainText) {
+        this.x = opts[0]
+        this.y = opts[1]
+        this.txt = opts[2]
+        this.font = opts[3]
+        this.scale = opts[4] || 1
       }
     }
   }

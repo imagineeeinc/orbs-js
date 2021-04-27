@@ -1,7 +1,7 @@
 ORBS.setFullScreenGameCss()
 var renderer = new ORBS.renderer({renderState: update, bgColor: "crimson", fps: 40})
 var scene = new ORBS.scene()
-renderer.addToImgCache("https://imagineeeinc.github.io/PickQuick/picker/Favicon/android-chrome-512x512.png", "pickquick") 
+renderer.addToImgCache("https://imagineeeinc.github.io/PickQuick/picker/Favicon/android-chrome-512x512.png", "pickquick")
 
 var script = new ORBS.scripComponent()
 script.attachScript(function(self) {
