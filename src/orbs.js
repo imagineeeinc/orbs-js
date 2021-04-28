@@ -49,18 +49,19 @@ class CaveRenderEngine {
     } else {return [false, "no given boolen"]}
   }
   //TODO: draw scene function
-  draw(scene, fps) {
+  draw(scene, fps, antiAliasing) {
     let now = Date.now()
     this.fps = fps
     this.scene = scene.vScene
     let canvas = document.getElementById(this.canvasId)
     if (canvas.getContext) {
-      var ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d', { alpha: false });
     } else {
       return [false, error.noSupport]
     }
     //defaults
     ctx.font = defaultFont
+    ctx.imageSmoothingEnabled = antiAliasing
     //background render code
     ctx.fillStyle = this.bgColor
     ctx.clearRect(-50, -50, canvas.width+100, canvas.height+100)
@@ -89,11 +90,15 @@ class CaveRenderEngine {
         if (obj.drawType == texture) {
           let response = this._drawers.texture(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width * obj.scale, obj.height * obj.scale, obj.texture])
         }
+      } else if (obj.type == text) {
+        if (obj.drawType == plainText) {
+          let response = this._drawers.plainText(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.txt, obj.font, obj.color])
+        }
       }
     }
     let dt = now - lastUpdate
     lastUpdate = now
-     deltaTime = dt/100
+    deltaTime = dt/100
     return [true]
   }
   _theDrawers() {
@@ -114,6 +119,11 @@ class CaveRenderEngine {
       texture: (function(ctx, opts){
         ctx.drawImage(opts[4],opts[0], opts[1], opts[2], opts[3])
         return true
+      }),
+      plainText: (function(ctx, opts){
+        ctx.font = opts[3]
+        ctx.fillText(opts[2], opts[1], opts[0])
+        return true
       })
     }
     return drawers
@@ -127,6 +137,16 @@ class newOrbsScene {
     this.vScene.push(obj)
   }
   scene() {return this.vScene}
+  moveObj(old, newI) {
+    this.vScene = array_move(this.vScene, old, newI)
+  }
+  getObj(name) {
+    for (var i=0;i<this.vScene.length;i++) {
+      if (this.vScene[i].name == name) {
+        return this.vScene[i]
+      }
+    }
+  }
 }
 //TODO: scripting system
 class newOrbsRenderer {
@@ -136,6 +156,7 @@ class newOrbsRenderer {
     } else {
       this.canvas = newCanvas()
     }
+    this.antiAliasing = opts.antiAliasing || true
     this.canvasId = this.canvas.id
     this.bgColor = opts.bgColor || "#ffffff"
     this.fps = opts.fps || 30
@@ -160,10 +181,12 @@ class newOrbsRenderer {
   }
   startRenderCycle() {
     let cave = this.cave
-    setInterval(() => updateScript(cave, this.scene, this.updater, this.fps), 1000/this.fps)
-    function updateScript(cave, scene, update, fps) {
+    //TODO: use this = \/\/\/
+    //window.requestAnimationFrame()
+    setInterval(() => updateScript(cave, this.scene, this.updater, this.fps, this.antiAliasing), 1000/this.fps)
+    function updateScript(cave, scene, update, fps, antiAliasing) {
       if (update === true) {
-        let response = cave.draw(scene, fps)
+        let response = cave.draw(scene, fps, antiAliasing)
         if (response[0] === false) {
           alert(response[1])
           console.alert(response[1])
@@ -210,15 +233,12 @@ class newOrbsRenderer {
 //TODO: do orbs object system and texture system
 class newOrbsObj {
   constructor(opts) {
+    this.name = opts.name || Math.round(Math.floor(Math.random() * 9999) + 1000)
     this.type = opts.type || mesh
     if (this.type == mesh) {
       this.drawType = opts.drawType
     }
-    if (this.drawType) {
-      this.drawType = opts.drawType || texture
-    } else {
-      this.drawType = texture
-    }
+    this.drawType = opts.drawType || texture
     this.scripts = []
     this.x = opts.x || 0
     this.y = opts.y || 0
@@ -339,4 +359,14 @@ const ORBS = {
 
 function echo(txt, ln) {
   return console.log(txt + `[ln: ${ln}]`)
+}
+function array_move(arr, old_index, new_index) {
+  if (new_index >= arr.length) {
+      var k = new_index - arr.length + 1;
+      while (k--) {
+          arr.push(undefined);
+      }
+  }
+  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+  return arr; // for testing
 }

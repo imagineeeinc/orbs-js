@@ -21,7 +21,7 @@ script.attachScript(function(self,im,ot) {
     self.y = self.y + self.yMove
     return self
 })
-var rects = new ORBS.obj({type: mesh, drawType: rect})
+var rects = new ORBS.obj({type: mesh, drawType: rect, name: "rect"})
 rects.drawFunc([50, 50, 100, 100, "pink"])
 rects.attachScript(script)
 rects.setVars("yMove", 3)
@@ -50,8 +50,8 @@ script2.attachScript(function(self, open) {
     self.y = open.y
     return self
 })
-script2.imports(function() {return window.renderer.scene.vScene[0]})
-var rects2 = new ORBS.obj({type: mesh, drawType: rect})
+script2.imports(function() {return window.scene.getObj("rect")})
+var rects2 = new ORBS.obj({type: mesh, drawType: rect, name: "rect2"})
 rects2.drawFunc([window.innerWidth-50, 50, 100, 100, "lightblue"])
 rects2.attachScript(script2)
 rects2.setVars("yMove", -3)
@@ -76,7 +76,7 @@ scriptCircle.attachScript(function(self) {
     self.y = self.y + self.yMove
     return self
 })
-var circles = new ORBS.obj({type: mesh, drawType: circle})
+var circles = new ORBS.obj({type: mesh, drawType: circle, name: "theCircle"})
 circles.drawFunc([window.innerWidth/2, 60, 50, "orange"])
 circles.attachScript(scriptCircle)
 circles.setVars("yMove", 0)
@@ -84,8 +84,11 @@ circles.setVars("maxVelo", 150)
 
 scene.add(circles)
 
-var txt = new ORBS.obj({type: text, drawType: plainText})
-txt.drawFunc([10, 10, "wow, this is really cool", "15px monoscape", "brown", 1])
+var txt = new ORBS.obj({type: text, drawType: plainText, name: "theTxt"})
+txt.drawFunc([30, 30, "wow, thats really cool", "25px Verdana", "brown", 1])
+
+scene.add(txt)
+
 console.log(renderer)
 console.log(scene)
 
@@ -96,6 +99,7 @@ document.body.prepend(renderer.canvas)
 renderer.startRenderCycle()
 renderer.setScene(scene)
 
-var image = new ORBS.obj({type: sprite})
+var image = new ORBS.obj({type: sprite, name: "img"})
 image.drawFunc([window.innerWidth/2, 100, 189, 189, imgStore.pickquick])
 scene.add(image)
+scene.moveObj(4, 0)
