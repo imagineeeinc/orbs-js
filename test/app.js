@@ -4,18 +4,18 @@ var scene = new ORBS.scene()
 renderer.addToImgCache("https://imagineeeinc.github.io/PickQuick/picker/Favicon/android-chrome-512x512.png", "pickquick")
 
 var script = new ORBS.scripComponent()
-script.attachScript(function(self) {
+script.attachScript(function(self,im,ot) {
     if (self.y > window.innerHeight - 50) {
-        self.yMove = -3
+        self.yMove = -10*ot.delta
     }
     if (self.y < 50) {
-        self.yMove = 3
+        self.yMove = 10*ot.delta
     }
     if (self.x > window.innerWidth - 50) {
-        self.xMove = -3
+        self.xMove = -10*ot.delta
     }
     if (self.x < 50) {
-        self.xMove = 3
+        self.xMove = 10*ot.delta
     }
     self.x = self.x + self.xMove
     self.y = self.y + self.yMove

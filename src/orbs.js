@@ -50,6 +50,7 @@ class CaveRenderEngine {
   }
   //TODO: draw scene function
   draw(scene, fps) {
+    let now = Date.now()
     this.fps = fps
     this.scene = scene.vScene
     let canvas = document.getElementById(this.canvasId)
@@ -90,6 +91,9 @@ class CaveRenderEngine {
         }
       }
     }
+    let dt = now - lastUpdate
+    lastUpdate = now
+     deltaTime = dt/100
     return [true]
   }
   _theDrawers() {
@@ -157,13 +161,6 @@ class newOrbsRenderer {
   startRenderCycle() {
     let cave = this.cave
     setInterval(() => updateScript(cave, this.scene, this.updater, this.fps), 1000/this.fps)
-    setInterval(tick, 0)
-    function tick() {
-      var now = Date.now();
-      var dt = now - lastUpdate;
-      lastUpdate = now;
-      deltaTime = dt/100 
-    }
     function updateScript(cave, scene, update, fps) {
       if (update === true) {
         let response = cave.draw(scene, fps)
