@@ -15,6 +15,7 @@ const plainText = "plainText"
 const hitbox = "hitbox"
 var imgStore = {}
 
+const defaultFont = "30px Arial"
 const error = {
   noSupport: "Your browser dose not support canvas"
 }
@@ -58,7 +59,7 @@ class CaveRenderEngine {
       return [false, error.noSupport]
     }
     //defaults
-    ctx.font = "30px Arial"
+    ctx.font = defaultFont
     //background render code
     ctx.fillStyle = this.bgColor
     ctx.clearRect(-50, -50, canvas.width+100, canvas.height+100)
@@ -271,7 +272,8 @@ class newOrbsObj {
         this.y = opts[1]
         this.txt = opts[2]
         this.font = opts[3]
-        this.scale = opts[4] || 1
+        this.color = opts[4] || "black"
+        this.scale = opts[5] || 1
       }
     }
   }

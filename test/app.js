@@ -84,6 +84,8 @@ circles.setVars("maxVelo", 150)
 
 scene.add(circles)
 
+var txt = new ORBS.obj({type: text, drawType: plainText})
+txt.drawFunc([10, 10, "wow, this is really cool", "15px monoscape", "brown", 1])
 console.log(renderer)
 console.log(scene)
 
