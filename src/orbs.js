@@ -161,6 +161,8 @@ class newOrbsRenderer {
     this.bgColor = opts.bgColor || "#ffffff"
     this.fps = opts.fps || 30
     this.renderState = opts.renderState || still
+    this.dynamicCamera = opts.dynamicCamera || false
+    this.cameraPos = opts.camPos || {x: 0, y: 0}
     if (this.renderState == still) {
       this.updater = false
     } else if (this.renderState == update) {
