@@ -2,8 +2,11 @@ const still = "still"
 const update = "update"
 
 const mesh = "mesh"
+const customMesh = "customMesh"
 const canvasShape = mesh
 const sprite = "sprite"
+const lineRndr = "lineRenderer"
+const line = lineRndr
 const text = "text"
 
 const texture = "texture"
@@ -27,6 +30,7 @@ class CaveRenderEngine {
     this.bgColor = opts.bgColor
     this.canvasId = opts.canvasId
     this._drawers = this._theDrawers()
+    this.campos = [0,0]
   }
   setUpImageCacher() {
     let store = document.createElement("div")
@@ -48,8 +52,7 @@ class CaveRenderEngine {
       ctx.translate(0,0)
     } else {return [false, "no given boolen"]}
   }
-  //TODO: draw scene function
-  draw(scene, fps, antiAliasing) {
+  draw(scene, fps, antiAliasing, campos) {
     let now = Date.now()
     this.fps = fps
     this.scene = scene.vScene
@@ -66,6 +69,11 @@ class CaveRenderEngine {
     ctx.fillStyle = this.bgColor
     ctx.clearRect(-50, -50, canvas.width+100, canvas.height+100)
     ctx.fillRect(-50, -50, canvas.width+100, canvas.height+100)
+    let ccampos = [campos.x, campos.y]
+    if (ccampos[0] != this.campos[0] || ccampos[1] != this.campos[1]) {
+      ctx.translate(ccampos[0] - this.campos[0], ccampos[1] - this.campos[1])
+      this.campos = ccampos
+    }
     //draw objects
     for (var i=0;i<this.scene.length;i++) {
       let obj = this.scene[i]
@@ -76,8 +84,8 @@ class CaveRenderEngine {
           let importing = sc[j].importScript || function() {return null}
           let s = sc[j].script
           importing = importing()
-          res = s(obj, importing, {fps: this.fps, delta: deltaTime})
-          obj = res
+          res = s(obj, importing, {fps: this.fps, delta: deltaTime, screen: canvas, camera: this.campos})
+          obj = res || obj
         }
       }
       if (obj.type == mesh) {
@@ -94,6 +102,10 @@ class CaveRenderEngine {
         if (obj.drawType == plainText) {
           let response = this._drawers.plainText(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.txt, obj.font, obj.color])
         }
+      } else if (obj.type == line) {
+        let response = this._drawers.lineRndr(ctx, [obj.start, obj.end, obj.width, obj.color])
+      } else if (obj.type == customMesh) {
+        let response = this._drawers.customMesh(ctx, obj.meshShader)
       }
     }
     let dt = now - lastUpdate
@@ -124,6 +136,28 @@ class CaveRenderEngine {
         ctx.font = opts[3]
         ctx.fillText(opts[2], opts[1], opts[0])
         return true
+      }),
+      lineRndr: (function(ctx, opts){
+        ctx.strokeStyle = opts[3]
+        ctx.lineWidth = opts[2]
+        ctx.beginPath()
+        if (opts[0].isVectObj = true) {
+          ctx.moveTo(opts[0].x, opts[0].y)
+        } else {
+          ctx.moveTo(opts[0][0], opts[0][1])
+        }
+        if (opts[1].isVectObj = true) {
+          ctx.lineTo(opts[1].x, opts[1].y)
+        } else {
+          ctx.lineTo(opts[1][0], opts[1][1])
+        }
+        ctx.stroke()
+        return true
+      }),
+      customMesh: (function(ctx, shader){
+        let s = shader.script
+        s(ctx)
+        return true
       })
     }
     return drawers
@@ -132,7 +166,7 @@ class CaveRenderEngine {
 class newOrbsScene {
   constructor() {
     this.vScene = []
-  }//TODO: orb scene system
+  }
   add(obj) {
     this.vScene.push(obj)
   }
@@ -148,7 +182,7 @@ class newOrbsScene {
     }
   }
 }
-//TODO: scripting system
+//TODO: finish and polish camera
 class newOrbsRenderer {
   constructor(opts) {
     if (opts.canvas) {
@@ -185,10 +219,10 @@ class newOrbsRenderer {
     let cave = this.cave
     //TODO: use this = \/\/\/
     //window.requestAnimationFrame()
-    setInterval(() => updateScript(cave, this.scene, this.updater, this.fps, this.antiAliasing), 1000/this.fps)
-    function updateScript(cave, scene, update, fps, antiAliasing) {
+    setInterval(() => updateScript(cave, this.scene, this.updater, this.fps, this.antiAliasing, this.cameraPos), 1000/this.fps)
+    function updateScript(cave, scene, update, fps, antiAliasing, campos) {
       if (update === true) {
-        let response = cave.draw(scene, fps, antiAliasing)
+        let response = cave.draw(scene, fps, antiAliasing, campos)
         if (response[0] === false) {
           alert(response[1])
           console.alert(response[1])
@@ -230,9 +264,10 @@ class newOrbsRenderer {
   draw(scene) {
     this.tempScene = scene
   }
+  translateCamera(opts) {
+    this.cameraPos = opts
+  }
 }
-
-//TODO: do orbs object system and texture system
 class newOrbsObj {
   constructor(opts) {
     this.name = opts.name || Math.round(Math.floor(Math.random() * 9999) + 1000)
@@ -241,6 +276,9 @@ class newOrbsObj {
       this.drawType = opts.drawType
     }
     this.drawType = opts.drawType || texture
+    if (this.type == line || this.type == customMesh) {
+      this.drawType = null
+    }
     this.scripts = []
     this.x = opts.x || 0
     this.y = opts.y || 0
@@ -260,7 +298,8 @@ class newOrbsObj {
   setVars(name, value) {
     this[name] = value
   }
-  drawFunc(opts) {
+  //TODO: custom mesh
+  drawFunc(...opts) {
     if (this.type == mesh) {
       if (this.drawType == rect) {
         this.x = opts[0]
@@ -294,6 +333,13 @@ class newOrbsObj {
         this.color = opts[4] || "black"
         this.scale = opts[5] || 1
       }
+    } else if (this.type == line) {
+      this.start = opts[0]
+      this.end = opts[1]
+      this.width = opts[2]
+      this.color = opts[3] || "black"
+    } else if (this.type == customMesh) {
+      this.meshShader = opts[0]
     }
   }
   move(v) {
@@ -319,6 +365,7 @@ class newOrbsScriptComponent {
 }
 class Vector {
   constructor(x, y, scale, rotation) {
+    this.isVectObj = true
     this.x = x || null
     this.y = y || null
     this.scale = scale || null
@@ -352,7 +399,7 @@ const ORBS = {
   renderer: newOrbsRenderer,
   scene: newOrbsScene,
   obj: newOrbsObj,
-  scripComponent: newOrbsScriptComponent,
+  scriptComponent: newOrbsScriptComponent,
   Vector: Vector,
   components: {
     primitiveGravity: primitiveGravity

@@ -1,6 +1,9 @@
 body {
     font-size: 15pt;
+    background-color: black;
+    display: flex;
 }
 canvas {
     display: block;
+    margin: auto;
 }
