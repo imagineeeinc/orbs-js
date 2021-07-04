@@ -359,7 +359,7 @@ class newOrbsObj {
 }
 
 class newOrbsScriptComponent {
-  constructor() {this.script = function() {return null}}
+  constructor(sc) {this.script = sc || function() {return null}}
   attachScript(s) {this.script = s}
   imports(im) {this.importScript = im}
 }

@@ -3,8 +3,7 @@ var renderer = new ORBS.renderer({renderState: update, bgColor: "crimson", fps: 
 var scene = new ORBS.scene()
 renderer.addToImgCache("https://imagineeeinc.github.io/PickQuick/picker/Favicon/android-chrome-512x512.png", "pickquick")
 
-var script = new ORBS.scriptComponent()
-script.attachScript(function(self,im,ot) {
+var script = new ORBS.scriptComponent(function(self,im,ot) {
     if (self.y > ot.screen.height - 50) {
         self.yMove = -10*ot.delta
     }
