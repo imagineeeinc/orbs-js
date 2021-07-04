@@ -16,12 +16,12 @@ var script = new ORBS.scriptComponent(function(self,im,ot) {
     if (self.x < 50) {
         self.xMove = 10*ot.delta
     }
-    self.x = self.x + self.xMove
-    self.y = self.y + self.yMove
+    self.dx = self.xMove
+    self.dy = self.yMove
     return self
 })
 var rects = new ORBS.obj({type: mesh, drawType: rect, name: "rect"})
-rects.drawFunc(50, 50, 100, 100, "pink")
+rects.drawFunc({x: 50, y: 50, width: 100, height: 100, color: "pink"})
 rects.attachScript(script)
 rects.setVars("yMove", 3)
 rects.setVars("xMove", 3)
@@ -51,7 +51,7 @@ script2.attachScript(function(self, open) {
 })
 script2.imports(function() {return window.scene.getObj("rect")})
 var rects2 = new ORBS.obj({type: mesh, drawType: rect, name: "rect2"})
-rects2.drawFunc(window.innerWidth-50, 50, 100, 100, "lightblue")
+rects2.drawFunc({ x: window.innerWidth-50, y: 50, width: 100, height: 100, color: "lightblue"})
 rects2.attachScript(script2)
 rects2.setVars("yMove", -3)
 rects2.setVars("xMove", -3)
@@ -76,7 +76,7 @@ scriptCircle.attachScript(function(self, im, ot) {
     return self
 })
 var circles = new ORBS.obj({type: mesh, drawType: circle, name: "theCircle"})
-circles.drawFunc(window.innerWidth/2, 60, 50, "orange")
+circles.drawFunc({x: window.innerWidth/2, y: 60, width: 50, color: "orange"})
 circles.attachScript(scriptCircle)
 circles.setVars("yMove", 0)
 circles.setVars("maxVelo", 150)
@@ -84,7 +84,7 @@ circles.setVars("maxVelo", 150)
 scene.add(circles)
 
 var txt = new ORBS.obj({type: text, drawType: plainText, name: "theTxt"})
-txt.drawFunc(30, 30, "wow, thats really cool", "25px Verdana", "brown", 1)
+txt.drawFunc({x: 30, y: 30, txt: "wow, thats really cool", font: "25px Verdana", color: "brown", scale: 1})
 
 scene.add(txt)
 
@@ -97,7 +97,7 @@ linescript.attachScript(function(self, open, ot) {
 })
 linescript.imports(function() {return window.scene.getObj("rect")})
 lineObj.attachScript(linescript)
-lineObj.drawFunc(Vect(1,1), Vect(100,100), 10, "#0080a1")
+lineObj.drawFunc({x: Vect(1,1), y: Vect(100,100), width: 10, color: "#0080a1"})
 
 scene.add(lineObj)
 
@@ -111,7 +111,7 @@ custShader.attachScript(function(ctx) {
     ctx.quadraticCurveTo(500, 10, window.innerWidth, window.innerHeight);
     ctx.stroke();
 })
-custMesh.drawFunc(custShader)
+custMesh.drawFunc({meshShader: custShader})
 scene.add(custMesh)
 
 console.log(renderer)
@@ -125,6 +125,8 @@ renderer.startRenderCycle()
 renderer.setScene(scene)
 
 var image = new ORBS.obj({type: sprite, name: "img"})
-image.drawFunc(window.innerWidth/2, 100, 189, 189, imgStore.pickquick)
+image.drawFunc({x: window.innerWidth/2, y: 100, width: 189, height: 189, sprite: imgStore.pickquick, dx: 0.01})
 scene.add(image)
 scene.moveObj(4, 0)
+
+//renderer.onLoop((o) => console.log(o))

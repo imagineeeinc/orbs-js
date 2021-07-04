@@ -22,8 +22,7 @@ const defaultFont = "30px Arial"
 const error = {
   noSupport: "Your browser dose not support canvas"
 }
-var lastUpdate = Date.now()
-var deltaTime = 0
+//TODO: make delta time seprate for each renderer
 
 class CaveRenderEngine {
   constructor(opts) {
@@ -31,6 +30,8 @@ class CaveRenderEngine {
     this.canvasId = opts.canvasId
     this._drawers = this._theDrawers()
     this.campos = [0,0]
+    this.lastUpdate = null
+    this.deltaTime = 0
   }
   setUpImageCacher() {
     let store = document.createElement("div")
@@ -53,6 +54,7 @@ class CaveRenderEngine {
     } else {return [false, "no given boolen"]}
   }
   draw(scene, fps, antiAliasing, campos) {
+    if (this.lastUpdate == null) {this.lastUpdate = Date.now()}
     let now = Date.now()
     this.fps = fps
     this.scene = scene.vScene
@@ -84,8 +86,16 @@ class CaveRenderEngine {
           let importing = sc[j].importScript || function() {return null}
           let s = sc[j].script
           importing = importing()
-          res = s(obj, importing, {fps: this.fps, delta: deltaTime, screen: canvas, camera: this.campos})
+          res = s(obj, importing, {fps: this.fps, delta: this.deltaTime, screen: canvas, camera: this.campos})
           obj = res || obj
+        }
+      }
+      if(obj.dx || obj.dy) {
+        if (obj.dx) {
+          obj.x += obj.dx
+        }
+        if (obj.dy) {
+          obj.y += obj.dy
         }
       }
       if (obj.type == mesh) {
@@ -96,7 +106,7 @@ class CaveRenderEngine {
         }
       } else if (obj.type == sprite) {
         if (obj.drawType == texture) {
-          let response = this._drawers.texture(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width * obj.scale, obj.height * obj.scale, obj.texture])
+          let response = this._drawers.texture(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width * obj.scale, obj.height * obj.scale, obj.sprite])
         }
       } else if (obj.type == text) {
         if (obj.drawType == plainText) {
@@ -108,9 +118,9 @@ class CaveRenderEngine {
         let response = this._drawers.customMesh(ctx, obj.meshShader)
       }
     }
-    let dt = now - lastUpdate
-    lastUpdate = now
-    deltaTime = dt/100
+    let dt = now - this.lastUpdate
+    this.lastUpdate = now
+    this.deltaTime = dt/100
     return [true]
   }
   _theDrawers() {
@@ -194,6 +204,7 @@ class newOrbsRenderer {
     this.canvasId = this.canvas.id
     this.bgColor = opts.bgColor || "#ffffff"
     this.fps = opts.fps || 30
+    this.loop = () => null
     this.renderState = opts.renderState || still
     this.dynamicCamera = opts.dynamicCamera || false
     this.cameraPos = opts.camPos || {x: 0, y: 0}
@@ -219,9 +230,10 @@ class newOrbsRenderer {
     let cave = this.cave
     //TODO: use this = \/\/\/
     //window.requestAnimationFrame()
-    setInterval(() => updateScript(cave, this.scene, this.updater, this.fps, this.antiAliasing, this.cameraPos), 1000/this.fps)
-    function updateScript(cave, scene, update, fps, antiAliasing, campos) {
+    setInterval(() => updateScript(cave, this.loop,this.scene, this.updater, this.fps, this.antiAliasing, this.cameraPos, this.canvasId), 1000/this.fps)
+    function updateScript(cave, loop, scene, update, fps, antiAliasing, campos, canvasId) {
       if (update === true) {
+        loop({fps: fps, screen: document.getElementById(canvasId), camera: campos})
         let response = cave.draw(scene, fps, antiAliasing, campos)
         if (response[0] === false) {
           alert(response[1])
@@ -267,6 +279,9 @@ class newOrbsRenderer {
   translateCamera(opts) {
     this.cameraPos = opts
   }
+  onLoop(fn) {
+    this.loop = fn
+  }
 }
 class newOrbsObj {
   constructor(opts) {
@@ -298,48 +313,9 @@ class newOrbsObj {
   setVars(name, value) {
     this[name] = value
   }
-  //TODO: custom mesh
-  drawFunc(...opts) {
-    if (this.type == mesh) {
-      if (this.drawType == rect) {
-        this.x = opts[0]
-        this.y = opts[1]
-        this.width = opts[2]
-        this.height = opts[3]
-        this.color = opts[4]
-        this.scale = opts[5] || 1
-      } else if (this.drawType == circle) {
-        this.x = opts[0]
-        this.y = opts[1]
-        this.width = opts[2]
-        this.color = opts[3]
-        this.scale = opts[4] || 1
-      }
-    } else if (this.type == sprite) {
-      if (this.drawType == texture) {
-        this.x = opts[0]
-        this.y = opts[1]
-        this.width = opts[2]
-        this.height = opts[3]
-        this.texture = opts[4]
-        this.scale = opts[5] || 1
-      }
-    } else if (this.type == text) {
-      if (this.drawType == plainText) {
-        this.x = opts[0]
-        this.y = opts[1]
-        this.txt = opts[2]
-        this.font = opts[3]
-        this.color = opts[4] || "black"
-        this.scale = opts[5] || 1
-      }
-    } else if (this.type == line) {
-      this.start = opts[0]
-      this.end = opts[1]
-      this.width = opts[2]
-      this.color = opts[3] || "black"
-    } else if (this.type == customMesh) {
-      this.meshShader = opts[0]
+  drawFunc(opts) {
+    for (let i=0;i < Object.keys(opts).length;i++) {
+      this[Object.keys(opts)[i]] = opts[Object.keys(opts)[i]]
     }
   }
   move(v) {

@@ -1,0 +1,19 @@
+- animation bassed on https://straker.github.io/kontra/api/animation
+- spritesheet
+- a basic loading asset api like https://straker.github.io/kontra/api/assets
+- clicking system
+- input system:
+	- text
+	- file
+	- clicks, right clicks, middle clicks
+	- scroll wheel
+	- keyboard
+	- foucus
+- base features on https://straker.github.io/kontra/
+- tile system
+- maybe a plugin system?
+- object pool system?
+- particle system
+- light system? kind of overpowerd for a small libary
+- collision detection
+- physics
