@@ -15,8 +15,7 @@ __Documentaion is still progress__
 ## Instalation/ Setup
 It's easy to get started with Orbs js!
 
-Orbs js can be installed simply using a content delivery network (CDN) URL to embed Orbs js directly on your HTML page.
-(npm support coming soon)
+Orbs js can be installed simply using a content delivery network (CDN) URL to embed Orbs js directly on your HTML page or npm
 
 ### CDN Install (via jsdeliver)
 
