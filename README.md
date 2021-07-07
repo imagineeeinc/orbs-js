@@ -56,6 +56,14 @@ add this to the head
 
 add one of these to the head of the html depending on what you need
 
+__And NPM Module available at [npm](https://www.npmjs.com/package/orbs-js)__
+
+install using the bellow in the command line to add to your project.
+
+```shell
+npm i orbs-js
+```
+
 ## Demos
 - [html test use to test(github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/index.html)
 
