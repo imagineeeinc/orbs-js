@@ -23,14 +23,37 @@ Orbs js can be installed simply using a content delivery network (CDN) URL to em
 __For development:__
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js@1.3.0/src/orbs.js"></script>
 ```
 
 __For production(recommended for speed):__
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js@1.3.0/src/orbs.min.js"></script>
 ```
+
+__If you want the library to be downloaded__
+
+(Not good for offline)
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js@1.3.0/src/orbs.pkg.min.js"></script>
+```
+
+__For the components provided__
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js@1.3.0/src/orbs.pkg.components.js"></script>
+```
+
+__If you want the components with the downloader__
+
+add this to the head
+
+```html
+<orbs-settings s='{"getComponents": true}''></orbs-settings>
+```
+
 add one of these to the head of the html depending on what you need
 
 ## Demos
@@ -46,6 +69,9 @@ add one of these to the head of the html depending on what you need
 - Scene system
 - primitive camera system
 - variable fps with Delta Time
+- mouse events for left button
+- pre made components available
+- package downloader (downloads the library and any extra things needed)
 - Planed Features:
 	- collision detection
 	- physics
@@ -99,8 +125,8 @@ rects.setVars("xMove", 3)
 scene.add(rects)
 //set the renderers dimensions
 renderer.setSize(window.innerWidth, window.innerHeight)
-//add the canvas to the body of the html
-document.body.prepend(renderer.canvas)
+//prepend the canvas to the body of the html and setup event listeners
+renderer.canvasAttactToDom(document.body, "prepend")
 //start the render pipeline
 renderer.startRenderCycle()
 //add the scene to the renderer

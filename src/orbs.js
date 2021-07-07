@@ -16,13 +16,33 @@ const paths = "paths"
 const plainText = "plainText"
 
 const hitbox = "hitbox"
-var imgStore = {}
+
+const down = "down"
+const up = "up"
+const drag = "drag"
 
 const defaultFont = "30px Arial"
 const error = {
   noSupport: "Your browser dose not support canvas"
 }
-//TODO: make delta time seprate for each renderer
+
+function echo(txt, ln) {
+  console.log(txt)
+  return console.trace(txt)
+}
+function array_move(arr, old_index, new_index) {
+  if (new_index >= arr.length) {
+      var k = new_index - arr.length + 1;
+      while (k--) {
+          arr.push(undefined);
+      }
+  }
+  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+  return arr; // for testing
+}
+function Vect(x, y, s, r) {
+  return new Vector(x, y, s, r)
+}
 
 class CaveRenderEngine {
   constructor(opts) {
@@ -53,7 +73,7 @@ class CaveRenderEngine {
       ctx.translate(0,0)
     } else {return [false, "no given boolen"]}
   }
-  draw(scene, fps, antiAliasing, campos) {
+  draw(scene, fps, antiAliasing, campos, imgStore, shader, renderer) {
     if (this.lastUpdate == null) {this.lastUpdate = Date.now()}
     let now = Date.now()
     this.fps = fps
@@ -76,9 +96,13 @@ class CaveRenderEngine {
       ctx.translate(ccampos[0] - this.campos[0], ccampos[1] - this.campos[1])
       this.campos = ccampos
     }
-    //draw objects
+    //shaders
+    if (shader != null || shader != undefined) {
+      shader(ctx, {fps: this.fps, screen: canvas, camera: this.campos})
+    }
     for (var i=0;i<this.scene.length;i++) {
       let obj = this.scene[i]
+      //scripts
       if (obj.scripts != null) {
         let sc = obj.scripts
         let res
@@ -86,10 +110,11 @@ class CaveRenderEngine {
           let importing = sc[j].importScript || function() {return null}
           let s = sc[j].script
           importing = importing()
-          res = s(obj, importing, {fps: this.fps, delta: this.deltaTime, screen: canvas, camera: this.campos})
+          res = s(obj, importing, {fps: this.fps, delta: this.deltaTime, screen: canvas, camera: this.campos, renderer: renderer})
           obj = res || obj
         }
       }
+      // move scripts
       if(obj.dx || obj.dy) {
         if (obj.dx) {
           obj.x += obj.dx
@@ -98,24 +123,25 @@ class CaveRenderEngine {
           obj.y += obj.dy
         }
       }
+      //drawing
       if (obj.type == mesh) {
         if (obj.drawType == rect) {
-          let response = this._drawers.rect(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width * obj.scale, obj.height * obj.scale, obj.color])
+          let response = this._drawers.rect(ctx, [obj.x-((obj.width * obj.scale)/2), obj.y-((obj.height * obj.scale)/2), obj.width * obj.scale, obj.height * obj.scale, obj.color])
         } else if (obj.drawType == circle) {
-          let response = this._drawers.circle(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width*obj.scale, obj.color])
+          let response = this._drawers.circle(ctx, [obj.x-((obj.width * obj.scale)/2), obj.y-((obj.height * obj.scale)/2), obj.width*obj.scale, obj.color])
         }
       } else if (obj.type == sprite) {
         if (obj.drawType == texture) {
-          let response = this._drawers.texture(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.width * obj.scale, obj.height * obj.scale, obj.sprite])
+          let response = this._drawers.texture(ctx, [obj.x-((obj.width * obj.scale)/2), obj.y-((obj.height * obj.scale)/2), obj.width * obj.scale, obj.height * obj.scale, obj.sprite])
         }
       } else if (obj.type == text) {
         if (obj.drawType == plainText) {
-          let response = this._drawers.plainText(ctx, [obj.x-(obj.width/2), obj.y-(obj.height/2), obj.txt, obj.font, obj.color])
+          let response = this._drawers.plainText(ctx, [obj.x-((obj.width * obj.scale)/2), obj.y-((obj.height * obj.scale)/2), obj.txt, obj.font, obj.color])
         }
       } else if (obj.type == line) {
         let response = this._drawers.lineRndr(ctx, [obj.start, obj.end, obj.width, obj.color])
       } else if (obj.type == customMesh) {
-        let response = this._drawers.customMesh(ctx, obj.meshShader)
+        let response = this._drawers.customMesh(ctx, obj.meshShader, {fps: this.fps, delta: this.deltaTime, screen: canvas, camera: this.campos, renderer: renderer}, obj.meshShader.importScript || function() {return null})
       }
     }
     let dt = now - this.lastUpdate
@@ -139,12 +165,13 @@ class CaveRenderEngine {
         return true
       }),
       texture: (function(ctx, opts){
-        ctx.drawImage(opts[4],opts[0], opts[1], opts[2], opts[3])
+        ctx.drawImage(opts[4].img,opts[0], opts[1], opts[2], opts[3])
         return true
       }),
       plainText: (function(ctx, opts){
         ctx.font = opts[3]
-        ctx.fillText(opts[2], opts[1], opts[0])
+        ctx.fillStyle = opts[4]
+        ctx.fillText(opts[2], opts[0], opts[1])
         return true
       }),
       lineRndr: (function(ctx, opts){
@@ -164,9 +191,10 @@ class CaveRenderEngine {
         ctx.stroke()
         return true
       }),
-      customMesh: (function(ctx, shader){
+      customMesh: (function(ctx, shader, others, imps){
         let s = shader.script
-        s(ctx)
+        imps = imps()
+        s(ctx, imps, others)
         return true
       })
     }
@@ -191,6 +219,9 @@ class newOrbsScene {
       }
     }
   }
+  exportSelf() {
+    return this
+  }
 }
 //TODO: finish and polish camera
 class newOrbsRenderer {
@@ -202,12 +233,23 @@ class newOrbsRenderer {
     }
     this.antiAliasing = opts.antiAliasing || true
     this.canvasId = this.canvas.id
+    this.events = {
+      hoverOver: false,
+      mouse: {
+        x:0,
+        y:0,
+        primaryBtn: up,
+        drag: false
+      }
+    }
+    this.imgStore = {}
     this.bgColor = opts.bgColor || "#ffffff"
     this.fps = opts.fps || 30
     this.loop = () => null
     this.renderState = opts.renderState || still
     this.dynamicCamera = opts.dynamicCamera || false
     this.cameraPos = opts.camPos || {x: 0, y: 0}
+    this.shader = null
     if (this.renderState == still) {
       this.updater = false
     } else if (this.renderState == update) {
@@ -230,11 +272,11 @@ class newOrbsRenderer {
     let cave = this.cave
     //TODO: use this = \/\/\/
     //window.requestAnimationFrame()
-    setInterval(() => updateScript(cave, this.loop,this.scene, this.updater, this.fps, this.antiAliasing, this.cameraPos, this.canvasId), 1000/this.fps)
-    function updateScript(cave, loop, scene, update, fps, antiAliasing, campos, canvasId) {
+    setInterval(() => updateScript(cave, this.loop,this.scene, this.updater, this.fps, this.antiAliasing, this.imaStore,this.cameraPos, this.canvasId, this.shader, this), 1000/this.fps)
+    function updateScript(cave, loop, scene, update, fps, antiAliasing, imgStore, campos, canvasId, shader, renderer) {
       if (update === true) {
         loop({fps: fps, screen: document.getElementById(canvasId), camera: campos})
-        let response = cave.draw(scene, fps, antiAliasing, campos)
+        let response = cave.draw(scene, fps, antiAliasing, campos, imgStore, shader, renderer)
         if (response[0] === false) {
           alert(response[1])
           console.alert(response[1])
@@ -248,10 +290,13 @@ class newOrbsRenderer {
     this.canvasId = this.canvas.id
   }
   addToImgCache(img, name) {
-    let store = document.getElementById(this.storeId)
-    let image = new Image()
-    image.src = img
-    imgStore[name] = image
+    //TODO: make image store seprate for each instance
+    if (img.isImgObj == true) {
+      imgStore[name] = image
+    } else {
+      let image = new newOrbsImage(img, name)
+      this.imgStore[name] = image
+    }
   }
   setRenderState(state) {
     this.renderState = state || still
@@ -282,6 +327,73 @@ class newOrbsRenderer {
   onLoop(fn) {
     this.loop = fn
   }
+  canvasAttactToDom(loc, pre) {
+    if (pre == "prepend") {
+      loc.prepend(this.canvas)
+    } else if (pre == "append") {
+      loc.append(this.canvas)
+    }
+    //TODO: add event listers and system
+    document.getElementById(this.canvasId).addEventListener("mouseleave", (e) => {this.events.hoverOver = true})
+    document.getElementById(this.canvasId).addEventListener("mousemove", (e) => {
+      this.events.mouse.x = e.offsetX - this.cameraPos.x
+      this.events.mouse.y = e.offsetY - this.cameraPos.y
+      for(var i=0;i < this.scene.vScene.length;i++) {
+        if (this.events.mouse.x < this.scene.vScene[i].x+(this.scene.vScene[i].width/2) &&
+        this.events.mouse.x > this.scene.vScene[i].x-(this.scene.vScene[i].width/2) &&
+        this.events.mouse.y < this.scene.vScene[i].y+(this.scene.vScene[i].height || this.scene.vScene[i].width/2) &&
+        this.events.mouse.y > this.scene.vScene[i].y-(this.scene.vScene[i].height || this.scene.vScene[i].width/2)) {
+          this.scene.vScene[i].events.mouse.hover = true
+        } else {
+          this.scene.vScene[i].events.mouse.hover = false
+        }
+      }
+      if (this.events.mouse.primaryBtn == down) {
+        this.events.mouse.drag = true
+        for(var i=0;i < this.scene.vScene.length;i++) {
+          if (this.scene.vScene[i].events.mouse.primaryBtn == down) {
+            this.scene.vScene[i].events.mouse.drag = true
+          } else {
+            this.scene.vScene[i].events.mouse.drag = false
+          }
+        }
+      } else if (this.events.mouse.primaryBtn == up) {
+        this.events.mouse.drag = false
+        for(var i=0;i < this.scene.vScene.length;i++) {
+          this.scene.vScene[i].events.mouse.drag = false
+        }
+      }
+    })
+    document.getElementById(this.canvasId).addEventListener("mousedown", (e) => {
+      this.mouseDown()
+      for(var i=0;i < this.scene.vScene.length;i++) {
+        if (this.events.mouse.x < this.scene.vScene[i].x+(this.scene.vScene[i].width/2) &&
+        this.events.mouse.x > this.scene.vScene[i].x-(this.scene.vScene[i].width/2) &&
+        this.events.mouse.y < this.scene.vScene[i].y+(this.scene.vScene[i].height || this.scene.vScene[i].width/2) &&
+        this.events.mouse.y > this.scene.vScene[i].y-(this.scene.vScene[i].height || this.scene.vScene[i].width/2)) {
+          this.scene.vScene[i].events.mouse.primaryBtn = down
+        }
+      }
+    })
+    document.getElementById(this.canvasId).addEventListener("mouseup", (e) => {
+      this.mouseUp()
+      for(var i=0;i < this.scene.vScene.length;i++) {
+        this.scene.vScene[i].events.mouse.primaryBtn = up
+      }
+    })
+  }
+  mouseDown() {
+    this.events.mouse.primaryBtn = down
+  }
+  mouseUp() {
+    this.events.mouse.primaryBtn = up
+  }
+  shaderSet(shader) {
+    this.shader = shader
+  }
+  exportSelf() {
+    return this
+  }
 }
 class newOrbsObj {
   constructor(opts) {
@@ -303,6 +415,16 @@ class newOrbsObj {
     this.scale = opts.scale || 1
     this.rotation = opts.rotation || 0
     this.texture = null
+    if (opts.drawFunc) {
+      this.drawFunc(opts.drawFunc)
+    }
+    this.events = {
+      mouse: {
+        hover: false,
+        primaryBtn: up,
+        drag: false
+      }
+    }
   }
   _giveCodec() {
     return {type: this.type, drawType: this.drawType, x: this.x, y: this.y, width: this.width, height: this.height, color: this.color}
@@ -349,17 +471,15 @@ class Vector {
   }
   _giveVector(){return [this.x, this.y, this.scale, this.rot]}
 }
-
-function Vect(x, y, s, r) {
-  return new Vector(x, y, s, r)
-}
-
-class primitiveGravity {
-  constructor(maxVelo) {
-    console.log("gravity is not yet implemented")
+class newOrbsImage {
+  constructor(url, name) {
+    this.isImgObj = true
+    let image = new Image()
+    image.src = url
+    this.img = image
+    this.name = name
   }
 }
-
 const ORBS = {
   setFullScreenGameCss: (function() {
     document.body.setAttribute("style", `padding: 0;
@@ -377,21 +497,10 @@ const ORBS = {
   obj: newOrbsObj,
   scriptComponent: newOrbsScriptComponent,
   Vector: Vector,
-  components: {
-    primitiveGravity: primitiveGravity
-  }
+  Sprite: newOrbsImage,
+  Image: newOrbsImage,
+  Texture: newOrbsImage
 }
 
-function echo(txt, ln) {
-  return console.log(txt + `[ln: ${ln}]`)
-}
-function array_move(arr, old_index, new_index) {
-  if (new_index >= arr.length) {
-      var k = new_index - arr.length + 1;
-      while (k--) {
-          arr.push(undefined);
-      }
-  }
-  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-  return arr; // for testing
-}
+window.onOrbsLoad = () => null
+setTimeout(() => {window.onOrbsLoad()}, 30)

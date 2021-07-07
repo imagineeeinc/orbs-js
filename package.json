@@ -1,0 +1,32 @@
+{
+  "name": "orbs-js",
+  "version": "1.3.0",
+  "description": "a fast lightweight 2D library that works across a lot of devices. Orbs js renders using HTML5 canvas for more compatibility.",
+  "main": "npm/orbs.js",
+  "scripts": {
+    "minify": "minify src/orbs.js > src/orbs.min.js && minify src/orbs.pkg.js > src/orbs.pkg.min.js && minify src/orbs.components.js > src/orbs.components.min.js",
+    "test": "jest --watchAll --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imagineeeinc/orbs-js.git"
+  },
+  "keywords": [
+    "canvas",
+    "html5-game",
+    "js-library",
+    "html5-canvas",
+    "game-2d",
+    "game-framework",
+    "js-game"
+  ],
+  "author": "Imagineee <imagineeeinc@users.noreply.github.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/imagineeeinc/orbs-js/issues"
+  },
+  "homepage": "https://github.com/imagineeeinc/orbs-js#readme",
+  "devDependencies": {
+    "jest": "^27.0.6"
+  }
+}

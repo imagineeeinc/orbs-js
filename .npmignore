@@ -1,0 +1,5 @@
+./test
+todo.txt
+src/drawFuncLegacy.js
+*/*.min.js
+*.test.js
