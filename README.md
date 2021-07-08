@@ -92,6 +92,7 @@ npm i orbs-js
 ## Basic Usage/ example
 
 ```js
+
 //set css for full screen canvas
 ORBS.setFullScreenGameCss()
 //initiate a new renderer
@@ -99,9 +100,8 @@ var renderer = new ORBS.renderer({renderState: update, bgColor: "crimson", fps: 
 //create a new scene
 var scene = new ORBS.scene()
 //new script component
-var script = new ORBS.scriptComponent()
-//add code to the script component
-script.attachScript(function(self,im,ot) {
+var script = new ORBS.scriptComponent(function(self,im,ot) {
+    if (self.events.mouse.primaryBtn != down) {
     if (self.y > ot.screen.height - 50) {
         self.yMove = -10*ot.delta
     }
@@ -114,14 +114,19 @@ script.attachScript(function(self,im,ot) {
     if (self.x < 50) {
         self.xMove = 10*ot.delta
     }
-    self.x = self.x + self.xMove
-    self.y = self.y + self.yMove
+    self.dx = self.xMove
+    self.dy = self.yMove}
+    if (self.events.mouse.primaryBtn == down) {
+		self.scale = 1.1
+    } else {
+        self.scale = 1
+    }
     return self
 })
 //create a object named 'rect'
 var rects = new ORBS.obj({type: mesh, drawType: rect, name: "rect"})
-//set the mesh to 100 by 100
-rects.drawFunc(50, 50, 100, 100, "pink")
+//set the mesh to 100 by 100@50, 50 with pink color
+rects.drawFunc({x: 50, y: 50, width: 100, height: 100, color: "pink"})
 //attach the script to the object
 rects.attachScript(script)
 //set varible 'yMove' to '3' of object 'rects'
