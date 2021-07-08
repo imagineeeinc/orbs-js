@@ -59,7 +59,7 @@ __And NPM Module available at [npm](https://www.npmjs.com/package/orbs-js)__
 
 install using the bellow in the command line to add to your project.
 
-```shell
+```bash
 npm i orbs-js
 ```
 
