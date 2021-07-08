@@ -65,6 +65,7 @@ npm i orbs-js
 
 ## Demos
 - [html test use to test(github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/index.html)
+- Example code on [jsfiddle](https://jsfiddle.net/Imagineee/1pzmrjLt/26/)
 
 ## Features
 - shapes (meshes)
