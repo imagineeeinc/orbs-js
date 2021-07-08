@@ -64,7 +64,8 @@ npm i orbs-js
 ```
 
 ## Demos
-- [html test use to test(github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/index.html)
+- [html test use to test (github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/index.html)
+- [html test used to test (live)](https://imagineeeinc.github.io/orbs-js/test/)
 - Example code on [jsfiddle](https://jsfiddle.net/Imagineee/1pzmrjLt/26/)
 
 ## Features
