@@ -10,7 +10,7 @@ Orbs js is a rendering library that will allow you to create rich, interactive g
 Orbs js is written to use the [HTML5 Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) for rendering. Out of the box cross-platform compatibility, scenes, camera movement, sprites, shapes, scripting and polished api allows you to create polished and refined experiences relatively quickly with almost no overhead set up.
 
 ## Docs
-__Documentaion is still progress__
+__Documentation is still progress__
 
 ## Instalation/ Setup
 It's easy to get started with Orbs js!
@@ -55,6 +55,17 @@ add this to the head
 
 add one of these to the head of the html depending on what you need
 
+__To import in JavaScript__
+use the import variables like this:
+```js
+// swap the values in the currly braces for what you need to import
+// make sure to use the orbsjs to import from, or it won't work
+const {ORBS, update, mesh, rect, circle, Vect, customMesh, lineRndr, down, sprite, text, plainText} = orbsjs
+
+// This is all you need for components (make sure the libary is imported in the head of the documnet)
+const {components} = orbsComponents
+```
+
 __And NPM Module available at [npm](https://www.npmjs.com/package/orbs-js)__
 
 install using the bellow in the command line to add to your project.
@@ -95,6 +106,8 @@ npm i orbs-js
 
 ```js
 
+//import functions and values needed
+const {ORBS, update, mesh, rect, Vect} = orbsjs
 //set css for full screen canvas
 ORBS.setFullScreenGameCss()
 //initiate a new renderer
