@@ -1,5 +1,9 @@
+/**
+ * @jest-environment jsdom
+ */
+
 const { expect, describe, it } = require('@jest/globals')
-const {Vect, ORBS, customMesh} = require('../')
+const {Vect, ORBS, customMesh, update} = require('../').orbsCore
 const document = {}
 
 describe('Test Orbs.js', () => {

@@ -1,12 +1,16 @@
 // For documentation on how to use and some extra setup you need to do read the comments inside the function
 // This is created by the official creator of Orbs JS to work with it, you made edit it for personal need
-
-const orbComponents = {
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.orbsComponents = {}));
+}(this, (function (exports) { 'use strict';
+const components = {
 	dragableObject: function() {
 		//A dragable object script to work with the orbs 'events.mouse' api
 		//when the obj is being draged if there is a system that continusly moves the object disable by using
 		//if (self.draging != true) { regular stuff... } else { when being draged }
-		return new newOrbsScriptComponent(function(self, imps, others){
+		return new ORBS.scriptComponent(function(self, imps, others){
 		if (self.events.mouse.drag == true) {
 			if (self.draging != true) {
 				if (self.events.mouse.hover == true) {
@@ -34,7 +38,7 @@ const orbComponents = {
 		//and set a mass for the object, replace 150 in the example bellow with your own
 		//                           |/|/
 		//your obj.setVars("mass", 2)
-		return new newOrbsScriptComponent(function() {
+		return new ORBS.scriptComponent(function() {
 		if (self.y >= ot.screen.height - (self.height/2)) {
 			if (self.yMove < 1) {
 				self.yMove = 0
@@ -55,3 +59,8 @@ const orbComponents = {
 		self.dy = self.yMove
 	})},
 	}
+
+	exports.components = components
+	
+	Object.defineProperty(exports, '__esModule', { value: true });
+})))

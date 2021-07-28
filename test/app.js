@@ -1,8 +1,11 @@
+const {ORBS, update, mesh, rect, circle, Vect, customMesh, lineRndr, down, sprite, text, plainText, CaveRenderEngine} = orbsjs
+const {components} = orbsComponents
+const orbComponents = components
 //window.onOrbsLoad = () => {
 ORBS.setFullScreenGameCss()
 var renderer = new ORBS.renderer({renderState: update, bgColor: "crimson", fps: 40, width: window.innerWidth, height: window.innerHeight})
 var scene = new ORBS.scene()
-renderer.addToImgCache("https://imagineeeinc.github.io/PickQuick/picker/Favicon/android-chrome-512x512.png", "pickquick")
+renderer.addToImgCache(new ORBS.Sprite("https://imagineeeinc.github.io/PickQuick/picker/Favicon/android-chrome-512x512.png"), "pickquick")
 
 var script = new ORBS.scriptComponent(function(self,im,ot) {
     if (self.events.mouse.primaryBtn != down) {
@@ -169,8 +172,6 @@ drawFunc: {x: 30, y: 60, txt: "wow, thats really cool", font: "20px Verdana", co
 
 scene.add(txt2)
 scene.moveObj(4, 0)
-
-new ORBS.Sprite("https://imagineeeinc.github.io/PickQuick/picker/Favicon/android-chrome-512x512.png")
 
 //renderer.shaderSet((ctx) => ctx.filter = 'contrast(1.4) sepia(.2) drop-shadow(-9px 9px 3px #e81)')
 
