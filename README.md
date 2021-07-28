@@ -10,13 +10,12 @@ Orbs js is a rendering library that will allow you to create rich, interactive g
 Orbs js is written to use the [HTML5 Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) for rendering. Out of the box cross-platform compatibility, scenes, camera movement, sprites, shapes, scripting and polished api allows you to create polished and refined experiences relatively quickly with almost no overhead set up.
 
 ## Docs
-__Documentaion is still progress__
+__Documentation is still progress__
 
 ## Instalation/ Setup
 It's easy to get started with Orbs js!
 
-Orbs js can be installed simply using a content delivery network (CDN) URL to embed Orbs js directly on your HTML page.
-(npm support coming soon)
+Orbs js can be installed simply using a content delivery network (CDN) URL to embed Orbs js directly on your HTML page or using the npm module
 
 ### CDN Install (via jsdeliver)
 
@@ -43,7 +42,7 @@ __If you want the library to be downloaded__
 __For the components provided__
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js@1.3.0/src/orbs.pkg.components.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js@1.3.0/src/orbs.components.js"></script>
 ```
 
 __If you want the components with the downloader__
@@ -56,8 +55,29 @@ add this to the head
 
 add one of these to the head of the html depending on what you need
 
+__To import in JavaScript__
+use the import variables like this:
+```js
+// swap the values in the currly braces for what you need to import
+// make sure to use the orbsjs to import from, or it won't work
+const {ORBS, update, mesh, rect, circle, Vect, customMesh, lineRndr, down, sprite, text, plainText} = orbsjs
+
+// This is all you need for components (make sure the libary is imported in the head of the documnet)
+const {components} = orbsComponents
+```
+
+__And NPM Module available at [npm](https://www.npmjs.com/package/orbs-js)__
+
+install using the bellow in the command line to add to your project.
+
+```bash
+npm i orbs-js
+```
+
 ## Demos
-- [html test use to test(github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/index.html)
+- [html test use to test (github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/index.html)
+- [html test used to test (live)](https://imagineeeinc.github.io/orbs-js/test/)
+- Example code on [jsfiddle](https://jsfiddle.net/Imagineee/1pzmrjLt/26/)
 
 ## Features
 - shapes (meshes)
@@ -85,6 +105,9 @@ add one of these to the head of the html depending on what you need
 ## Basic Usage/ example
 
 ```js
+
+//import functions and values needed
+const {ORBS, update, mesh, rect, Vect} = orbsjs
 //set css for full screen canvas
 ORBS.setFullScreenGameCss()
 //initiate a new renderer
@@ -92,9 +115,8 @@ var renderer = new ORBS.renderer({renderState: update, bgColor: "crimson", fps: 
 //create a new scene
 var scene = new ORBS.scene()
 //new script component
-var script = new ORBS.scriptComponent()
-//add code to the script component
-script.attachScript(function(self,im,ot) {
+var script = new ORBS.scriptComponent(function(self,im,ot) {
+    if (self.events.mouse.primaryBtn != down) {
     if (self.y > ot.screen.height - 50) {
         self.yMove = -10*ot.delta
     }
@@ -107,14 +129,19 @@ script.attachScript(function(self,im,ot) {
     if (self.x < 50) {
         self.xMove = 10*ot.delta
     }
-    self.x = self.x + self.xMove
-    self.y = self.y + self.yMove
+    self.dx = self.xMove
+    self.dy = self.yMove}
+    if (self.events.mouse.primaryBtn == down) {
+		self.scale = 1.1
+    } else {
+        self.scale = 1
+    }
     return self
 })
 //create a object named 'rect'
 var rects = new ORBS.obj({type: mesh, drawType: rect, name: "rect"})
-//set the mesh to 100 by 100
-rects.drawFunc(50, 50, 100, 100, "pink")
+//set the mesh to 100 by 100@50, 50 with pink color
+rects.drawFunc({x: 50, y: 50, width: 100, height: 100, color: "pink"})
 //attach the script to the object
 rects.attachScript(script)
 //set varible 'yMove' to '3' of object 'rects'
