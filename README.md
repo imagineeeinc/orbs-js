@@ -115,8 +115,10 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 
 ## Demos
 - [html test use to test (github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/index.html)
+- [npm module test using jest (github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/test_npm.test.js)
 - [html test used to test (live)](https://imagineeeinc.github.io/orbs-js/test/)
-- Example code on [jsfiddle](https://jsfiddle.net/Imagineee/1pzmrjLt/26/)
+- Example for v1.3.0 on [jsfiddle](https://jsfiddle.net/Imagineee/1pzmrjLt/26/)
+- Example for v1.3.1 and above on [codepen](https://codepen.io/imagineeeinc/pen/abWYjLN)
 
 ## Features
 - shapes (meshes)
