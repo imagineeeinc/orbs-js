@@ -1,4 +1,4 @@
-const {ORBS, update, mesh, rect, circle, Vect, customMesh, lineRndr, down, sprite, text, plainText, CaveRenderEngine} = orbsjs
+const {ORBS, update, mesh, rect, circle, Vect, customMesh, lineRndr, down, sprite, text, plainText, CaveRenderEngine} = orbsCore
 const {components} = orbsComponents
 const orbComponents = components
 //window.onOrbsLoad = () => {
