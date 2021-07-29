@@ -1,6 +1,6 @@
 {
   "name": "orbs-js",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "a fast lightweight 2D library that works across a lot of devices. Orbs js renders using HTML5 canvas for more compatibility.",
   "main": "npm/orbs.js",
   "scripts": {
@@ -20,6 +20,18 @@
     "game-framework",
     "js-game"
   ],
+  "exports": {
+    "core": {
+      "import": "./src/orbs.js",
+      "require": "./src/orbs.js"
+    },
+    "components": {
+      "import": "./src/orbs.components.js",
+      "require": "./src/orbs.components.js"
+    },
+    "import": "./src/orbs.js",
+    "require": "./npm/orbs.js"
+  },
   "author": "Imagineee <imagineeeinc@users.noreply.github.com>",
   "license": "MIT",
   "bugs": {
