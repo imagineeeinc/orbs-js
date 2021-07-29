@@ -77,7 +77,7 @@ use the import variables like this:
 ```js
 // swap the values in the currly braces for what you need to import
 // make sure to use the orbsjs to import from, or it won't work
-const {ORBS, update, mesh, rect, circle, Vect, customMesh, lineRndr, down, sprite, text, plainText} = orbsjs
+const {ORBS, update, mesh, rect, circle, Vect, customMesh, lineRndr, down, sprite, text, plainText} = orbsCore
 
 // This is all you need for components (make sure the libary is imported in the head of the documnet)
 const {components} = orbsComponents
