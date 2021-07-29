@@ -19,33 +19,35 @@ Orbs js can be installed simply using a content delivery network (CDN) URL to em
 
 ### CDN Install (via jsdeliver)
 
+***Easiest Install***
+
 __For development:__
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js@1.3.0/src/orbs.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.js"></script>
 ```
 
 __For production(recommended for speed):__
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js@1.3.0/src/orbs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.min.js"></script>
 ```
 
-__If you want the library to be downloaded__
+__If you want the library to be downloaded ***(deperected)***__
 
 (Not good for offline)
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js@1.3.0/src/orbs.pkg.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.pkg.min.js"></script>
 ```
 
 __For the components provided__
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js@1.3.0/src/orbs.components.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.components.js"></script>
 ```
 
-__If you want the components with the downloader__
+__If you want the components with the downloader ***(deperected)***__
 
 add this to the head
 
@@ -53,9 +55,22 @@ add this to the head
 <orbs-settings s='{"getComponents": true}''></orbs-settings>
 ```
 
+### CDN Install (via unpkg)
+```html
+<!--for the js file-->
+<!--Recomended for browser-->
+<script src="https://unpkg.com/orbs-js@1.3.1/src/orbs.js" />
+
+<!--for npm file-->
+<script src="https://unpkg.com/orbs-js@1.3.1/npm/orbs.js" />
+```
+
 add one of these to the head of the html depending on what you need
 
-__To import in JavaScript__
+<br>
+
+__To import in JavaScript (for all above methods)__
+
 use the import variables like this:
 ```js
 // swap the values in the currly braces for what you need to import
@@ -66,6 +81,21 @@ const {ORBS, update, mesh, rect, circle, Vect, customMesh, lineRndr, down, sprit
 const {components} = orbsComponents
 ```
 
+### CDN Install (via skypack)
+
+__Use this in your js__
+```js
+import orbsJs from 'https://cdn.skypack.dev/orbs-js';
+```
+__And Import like this__
+```js
+// make sure to include this to import the core libary
+const {orbsCore} = orbsJs
+
+// swap the values in the currly braces for what you need to import
+const {ORBS, update, mesh, rect, Vect, down} = orbsCore
+```
+
 __And NPM Module available at [npm](https://www.npmjs.com/package/orbs-js)__
 
 install using the bellow in the command line to add to your project.
@@ -74,10 +104,21 @@ install using the bellow in the command line to add to your project.
 npm i orbs-js
 ```
 
+__Usage__
+```js
+// use the 'orbsCore' to import the main liabry and 'components' import the components
+const {orbsCore, components} = require('orbs-js')
+
+// swap the values in the currly braces for what you need to import
+const {ORBS, update, mesh, rect, Vect, down} = orbsCore
+```
+
 ## Demos
 - [html test use to test (github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/index.html)
+- [npm module test using jest (github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/test_npm.test.js)
 - [html test used to test (live)](https://imagineeeinc.github.io/orbs-js/test/)
-- Example code on [jsfiddle](https://jsfiddle.net/Imagineee/1pzmrjLt/26/)
+- Example for v1.3.0 on [jsfiddle](https://jsfiddle.net/Imagineee/1pzmrjLt/26/)
+- Example for v1.3.1 and above on [codepen](https://codepen.io/imagineeeinc/pen/abWYjLN)
 
 ## Features
 - shapes (meshes)
