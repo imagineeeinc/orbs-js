@@ -68,7 +68,8 @@ add this to the head
 add one of these to the head of the html depending on what you need
 
 <br>
-__To import in JavaScript (for all above methords)__
+
+__To import in JavaScript (for all above methods)__
 
 use the import variables like this:
 ```js
