@@ -65,7 +65,9 @@ add this to the head
 <script src="https://unpkg.com/orbs-js@1.3.1/npm/orbs.js" />
 ```
 
-add one of these to the head of the html depending on what you need
+<br>
+
+add any of these to the head of the html depending on what you need
 
 <br>
 
