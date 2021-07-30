@@ -108,7 +108,11 @@ __And NPM Module available at [npm](https://www.npmjs.com/package/orbs-js)__
 install using the bellow in the command line to add to your project.
 
 ```bash
+# npm
 npm i orbs-js
+
+# yarn
+yarn add orbs-js
 ```
 
 __Usage__
