@@ -21,6 +21,7 @@ jobs:
       with:
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
         src_path: README.md
+        src_branch: main
         dst_path: /src
         dst_branch: main
         dst_owner: imagineeeinc
