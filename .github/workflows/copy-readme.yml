@@ -1,0 +1,27 @@
+name: copy readme to src for deno
+
+# Controls when the workflow will run
+on:
+  push:
+    paths:
+      - 'README.md'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "copy"
+  copy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Copy
+      uses: andstor/copycat-action@v3
+      with:
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
+        src_path: README.md
+        dst_path: /src
+        dst_owner: imagineeeinc
+        dst_repo_name: orbs-js
+        commit_message: copied readme for deno package
