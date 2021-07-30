@@ -3,7 +3,7 @@
 #### NOTE: DOCUMENTION IN PROGRESS
 
 <p align="center">
-  <img src="orbs.png" width="20%">
+  <img src="https://imagineeeinc.github.io/orbs-js/orbs.png" width="20%">
 </p>
 
 ![npm bundle size](https://img.shields.io/bundlephobia/min/orbs-js?logo=npm)
