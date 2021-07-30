@@ -27,7 +27,7 @@ Orbs js can be installed simply using a content delivery network (CDN) URL to em
 
 ### CDN Install (via jsdeliver)
 
-***Easiest Install***
+***Simplest Install***
 
 ```html
 <!--For Development-->
@@ -38,6 +38,8 @@ Orbs js can be installed simply using a content delivery network (CDN) URL to em
 
 <!--For official components provided-->
 <script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.components.js"></script>
+<!--Minified-->
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.components.min.js"></script>
 ```
 
 ### CDN Install (via unpkg)
@@ -74,6 +76,28 @@ const {components} = orbsComponents
 ```
 
 NOTE: do not import the files straight into your js file, you have to include it in the head of your html.
+
+### CDN Install (via Bundle.run)
+
+__This is one of the efficient yet easy way__
+
+```html
+<!--add this to your head-->
+<script src="https://bundle.run/orbs-js@1.3.2"></script>
+```
+
+easily import in your js with this:
+
+```js
+// Import 'orbsCore' and 'components' if needed from 'orbsJs'
+// make sure to include the bunde.run url in the head
+const {orbsCore, components} = orbsJs
+
+// swap the values in the currly braces for what you need to import
+const {ORBS, update, mesh, rect, Vect, down} = orbsCore
+
+// use components how you would like 'components.whatComponentNeeded()'
+```
 
 ### CDN Install (via skypack)
 
@@ -122,6 +146,8 @@ const {orbsCore, components} = require('orbs-js')
 
 // swap the values in the currly braces for what you need to import
 const {ORBS, update, mesh, rect, Vect, down} = orbsCore
+
+// use components how you would like 'components.whatComponentNeeded()'
 ```
 
 ## Demos
@@ -162,7 +188,9 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 ```js
 //import functions and values needed
 //use 'orbsJs' instead of 'orbsCore' if using skypack
-const {ORBS, update, mesh, rect, Vect} = orbsCore
+//if using bundle.run use the import core statment first which is bellow \/
+//const {orbsCore} = orbsJs
+const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 //set css for full screen canvas
 ORBS.setFullScreenGameCss()
 //initiate a new renderer
