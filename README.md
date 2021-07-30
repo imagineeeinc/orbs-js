@@ -29,6 +29,17 @@ It's easy to get started with Orbs js!
 
 Orbs js can be installed simply using a content delivery network (CDN) URL to embed Orbs js directly on your HTML page or using the npm module
 
+
+| Inatalation Options | Type       | Description                                                                                                | Instaling                                                     | Usage                                                         |
+| --------------------- | ------------ | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| JsDeliver           | CDN        | Simplest, for beginers, components avalible (Browser)                                                      | [learn to install here](#cdn-install-via-jsdeliver)           | [Learn to use here](#usage-for-all-of-the-above)              |
+| UNPKG               | CDN        | Complex, use if you know what you want to do, componets avalible (Browser)                                 | [leran to install here](#cdn-install-via-unpkg)               | [Learn to use here](#usage-for-all-of-the-above)              |
+| Download            | downloaded | Easy, just download and use in your project (Browser, Node js, Deno)                                       | [leran to install here](#download)                            | [Learn to use here](#usage-for-all-of-the-above)              |
+| Bundle.run          | CDN        | Simple, for people who know how to use js import staments; has components and core in one import (Browser) | [learn to install and use here](#cdn-install-via-bundlerun)   | [learn to install and use here](#cdn-install-via-bundlerun)   |
+| Skypack             | CDN        | Kind of complex, components not working, for people who like complex cdns (Browser)                        | [learn to install and use here](#cdn-install-via-skypack)     | [learn to install and use here](#cdn-install-via-skypack)     |
+| Npm module          | module     | For usage in node js projects (node js projects, browser[kind of])                                         | [learn to install and use here](#npm-module-available-at-npm) | [learn to install and use here](#npm-module-available-at-npm) |
+| Deno module         | module     | For usage in deno projects (deno projects)                                                                 | [learn to install here](#for-deno)                            | [Learn to use here](#usage-for-all-of-the-above)              |
+
 ### CDN Install (via jsdeliver)
 
 ***Simplest Install***
@@ -60,13 +71,22 @@ Orbs js can be installed simply using a content delivery network (CDN) URL to em
 <script src="https://unpkg.com/orbs-js@1.3.1/npm/orbs.js" />
 ```
 
+### Download
+
+Simply download any of the files bellow and include in your project
+
+- [Core Engine](https://raw.githubusercontent.com/imagineeeinc/orbs-js/main/src/orbs.js)
+- [Core Engine (minified)](https://raw.githubusercontent.com/imagineeeinc/orbs-js/main/src/orbs.min.js)
+- [Components](https://raw.githubusercontent.com/imagineeeinc/orbs-js/main/src/orbs.components.js)
+- [Component (minified)](https://raw.githubusercontent.com/imagineeeinc/orbs-js/main/src/orbs.components.min.js)
+
 <br>
 
 __Add any of these to the head of the html depending on what you need__
 
 ### Usage (for all of the above)
 
-__To import in JavaScript__
+__To import in JavaScript (and deno)__
 
 use the import variables like this:
 
@@ -130,7 +150,7 @@ import orbsJs from 'https://cdn.skypack.dev/orbs-js/';
 const {ORBS, update, mesh, rect, Vect, down} = orbsJs
 ```
 
-### NPM Module available at [npm](https://www.npmjs.com/package/orbs-js)
+### Npm Module available at [npm](https://www.npmjs.com/package/orbs-js)
 
 install using the bellow in the command line to add to your project.
 
@@ -153,6 +173,12 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 
 // use components how you would like 'components.whatComponentNeeded()'
 ```
+
+### For Deno
+
+if you are looking for deno you can use the skypack url: `https://cdn.skypack.dev/orbs-js?dts`
+
+Or the deno.land/x package coming soon...
 
 ## Demos
 
