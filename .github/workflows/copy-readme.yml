@@ -22,6 +22,7 @@ jobs:
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
         src_path: README.md
         dst_path: /src
+        dst_branch: main
         dst_owner: imagineeeinc
         dst_repo_name: orbs-js
         commit_message: copied readme for deno package
