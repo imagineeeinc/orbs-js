@@ -10,14 +10,17 @@
 a fast lightweight 2D library that works across a lot of devices. Orbs js renders using HTML5 canvas for more compatibility.
 
 ## What to Use Orbs js for and When to Use It
+
 Orbs js is a rendering library that will allow you to create rich, interactive graphics, cross platform applications, and games without having to write a lot of overhead for your project and get extra features like scenes, apis and more.
 
 Orbs js is written to use the [HTML5 Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) for rendering. Out of the box cross-platform compatibility, scenes, camera movement, sprites, shapes, scripting and polished api allows you to create polished and refined experiences relatively quickly with almost no overhead set up.
 
 ## Docs
+
 __Documentation is still progress__
 
 ## Instalation/ Setup
+
 It's easy to get started with Orbs js!
 
 Orbs js can be installed simply using a content delivery network (CDN) URL to embed Orbs js directly on your HTML page or using the npm module
@@ -26,45 +29,26 @@ Orbs js can be installed simply using a content delivery network (CDN) URL to em
 
 ***Easiest Install***
 
-__For development:__
-
 ```html
+<!--For Development-->
 <script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.js"></script>
-```
 
-__For production(recommended for speed):__
-
-```html
+<!--For production(recommended for speed)-->
 <script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.min.js"></script>
-```
 
-__If you want the library to be downloaded ***(deperected)***__
-
-(Not good for offline)
-
-```html
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.pkg.min.js"></script>
-```
-
-__For the components provided__
-
-```html
+<!--For official components provided-->
 <script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.components.js"></script>
 ```
 
-__If you want the components with the downloader ***(deperected)***__
-
-add this to the head
-
-```html
-<orbs-settings s='{"getComponents": true}''></orbs-settings>
-```
-
 ### CDN Install (via unpkg)
+
 ```html
 <!--for the js file-->
 <!--Recomended for browser-->
 <script src="https://unpkg.com/orbs-js@1.3.1/src/orbs.js" />
+
+<!--components-->
+<script src="https://unpkg.com/orbs-js@1.3.1/src/orbs.components.js" />
 
 <!--for npm file-->
 <script src="https://unpkg.com/orbs-js@1.3.1/npm/orbs.js" />
@@ -72,13 +56,14 @@ add this to the head
 
 <br>
 
-add any of these to the head of the html depending on what you need
+__Add any of these to the head of the html depending on what you need__
 
-<br>
+### Usage (for all of the above)
 
-__To import in JavaScript (for all above methods)__
+__To import in JavaScript__
 
 use the import variables like this:
+
 ```js
 // swap the values in the currly braces for what you need to import
 // make sure to use the orbsCore to import from, or it won't work
@@ -88,22 +73,36 @@ const {ORBS, update, mesh, rect, circle, Vect, customMesh, lineRndr, down, sprit
 const {components} = orbsComponents
 ```
 
+NOTE: do not import the files straight into your js file, you have to include it in the head of your html.
+
 ### CDN Install (via skypack)
 
-__Use this in your js__
+__Use import like this in your js__
+
 ```js
 import orbsJs from 'https://cdn.skypack.dev/orbs-js';
 ```
-__And Import like this__
-```js
-// make sure to include this to import the core libary
-const {orbsCore} = orbsJs
 
+__And Import the the functions and values like this__
+
+```js
 // swap the values in the currly braces for what you need to import
-const {ORBS, update, mesh, rect, Vect, down} = orbsCore
+const {ORBS, update, mesh, rect, Vect, down} = orbsJs
+
+// Components dosen't seem to work with skypack currently so use one off the other options from before.
 ```
 
-__And NPM Module available at [npm](https://www.npmjs.com/package/orbs-js)__
+full example for skypack:
+
+```js
+// importing the orbs js libary from skypack
+import orbsJs from 'https://cdn.skypack.dev/orbs-js/';
+
+// swap the values in the currly braces for what you need to import
+const {ORBS, update, mesh, rect, Vect, down} = orbsJs
+```
+
+### NPM Module available at [npm](https://www.npmjs.com/package/orbs-js)
 
 install using the bellow in the command line to add to your project.
 
@@ -115,7 +114,8 @@ npm i orbs-js
 yarn add orbs-js
 ```
 
-__Usage__
+__Usage in your js file__
+
 ```js
 // use the 'orbsCore' to import the main liabry and 'components' import the components
 const {orbsCore, components} = require('orbs-js')
@@ -125,6 +125,7 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 ```
 
 ## Demos
+
 - [html test use to test (github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/index.html)
 - [npm module test using jest (github)](https://github.com/imagineeeinc/orbs-js/blob/main/test/test_npm.test.js)
 - [html test used to test (live)](https://imagineeeinc.github.io/orbs-js/test/)
@@ -132,6 +133,7 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 - Example for v1.3.1 and above on [codepen](https://codepen.io/imagineeeinc/pen/abWYjLN)
 
 ## Features
+
 - shapes (meshes)
 - texture
 - custom shapes (custom meshes using the HTML5 Canvas API)
@@ -145,21 +147,22 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 - pre made components available
 - package downloader (downloads the library and any extra things needed)
 - Planed Features:
-	- collision detection
-	- physics
-	- keyboard and mouse events
-	- global scripting
-	- html(& markdown) rendering
-	- more customisable shapes
-	- better camera
-	- better debugging
-	- enhance for big projects
+  - collision detection
+  - physics
+  - keyboard and mouse events
+  - global scripting
+  - html(& markdown) rendering
+  - more customisable shapes
+  - better camera
+  - better debugging
+  - enhance for big projects
+
 ## Basic Usage/ example
 
 ```js
-
 //import functions and values needed
-const {ORBS, update, mesh, rect, Vect} = orbsjs
+//use 'orbsJs' instead of 'orbsCore' if using skypack
+const {ORBS, update, mesh, rect, Vect} = orbsCore
 //set css for full screen canvas
 ORBS.setFullScreenGameCss()
 //initiate a new renderer
@@ -214,4 +217,5 @@ renderer.setScene(scene)
 ```
 
 ## License
+
 This content is released under the [MIT License](http://opensource.org/licenses/MIT).
