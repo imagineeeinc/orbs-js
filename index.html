@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Orbs JS</title>
+	<link rel="shortcut icon" type="image/jpg" href="orbs.png"/>
+	<link rel="stylesheet" type="text/css" href="https://eureka-imagineee-server.github.io/cdn/fonts/serif/serif.css" rel="preload">
+	<style>
+		:root {
+			font-family: comfortaa ,-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+			font-weight: 900;
+		}
+		header {
+			--pad: 40vh;
+			padding-top: var(--pad);
+			padding-bottom: calc(var(--pad) + 10vh);
+			text-align: center;
+			color: white;
+			letter-spacing: 1px;
+		}
+		#back {
+			position: fixed;
+			top: 0;left: 0;
+			z-index: -1;
+			background: #100012;
+		}
+		section {
+			padding: 10vw;
+			background: white;
+		}
+	</style>
+	<script src="https://bundle.run/orbs-js@1.3.2"></script>
+</head>
+<body>
+	<div id="back"></div>
+	<main>
+		<header>
+			<h1>
+				Orbs JS
+			</h1>
+			<h4>
+				Create beautiful 2D content for the web
+			</h4>
+		</header>
+		<section>
+			page in progress...
+		</section>
+	</main>
+	<script>
+		const {orbsCore, components} = orbsJs
+		const {ORBS, update, mesh, rect, Vect, down, lineRndr, circle} = orbsCore
+
+		//set css for full screen canvas
+		ORBS.setFullScreenGameCss()
+		//initiate a new renderer
+		var renderer = new ORBS.renderer({renderState: update, bgColor: "#100012", fps: 40, width: window.innerWidth, height: window.innerHeight})
+		//create a new scene
+		var scene = new ORBS.scene()
+		//new script component
+		var bounce = new ORBS.scriptComponent(function(self,im,ot) {
+		if (self.y > ot.screen.height - 50) {
+			self.yMove = -5*ot.delta
+		}
+		if (self.y < 50) {
+			self.yMove = 5*ot.delta
+		}
+		if (self.x > ot.screen.width - 50) {
+			self.xMove = -5*ot.delta
+		}
+		if (self.x < 50) {
+			self.xMove = 5*ot.delta
+		}
+		self.dx = self.xMove
+		self.dy = self.yMove
+		return self
+		})
+		var rbounce = new ORBS.scriptComponent(function(self,im,ot) {
+			if (self.y > ot.screen.height - 50) {
+			self.yMove = -15*ot.delta
+			}
+			if (self.y < 50) {
+			self.yMove = 15*ot.delta
+			}
+			if (self.x > ot.screen.width - 50) {
+			self.xMove = -15*ot.delta
+			}
+			if (self.x < 50) {
+			self.xMove = 15*ot.delta
+			}
+			self.dx = self.xMove
+			self.dy = self.yMove
+			return self
+		})
+
+		var linescript = new ORBS.scriptComponent()
+		linescript.attachScript(function(self, imp, ot) {
+		self.start = Vect(imp[0].x, imp[0].y)
+		self.end = Vect(imp[1].x, imp[1].y)
+		})
+		var lineObj = new ORBS.obj({type: lineRndr, name: "line"})
+		linescript.imports(function() {return [window.scene.getObj("rect"), window.scene.getObj("rect2")]})
+		lineObj.attachScript(linescript)
+		lineObj.drawFunc({width: 5, color: "darkorchid"})
+		scene.add(lineObj)
+
+		var linescript2 = new ORBS.scriptComponent()
+		linescript2.attachScript(function(self, imp, ot) {
+		self.start = Vect(window.innerWidth/2, -10)
+		self.end = Vect(imp[0].x, imp[0].y)
+		})
+		var lineObj2 = new ORBS.obj({type: lineRndr, name: "line"})
+		linescript2.imports(function() {return [window.scene.getObj("rect")]})
+		lineObj2.attachScript(linescript2)
+		lineObj2.drawFunc({width: 5, color: "darkslateblue"})
+		scene.add(lineObj2)
+
+		var circles = new ORBS.obj({type: mesh, drawType: circle, name: "circle"})
+		circles.drawFunc({x: window.innerWidth-100, y: window.innerHeight/20, width: 50, color: "springgreen"})
+		circles.attachScript(bounce)
+		circles.setVars("yMove", 1.3)
+		circles.setVars("xMove", -1.3)
+		scene.add(circles)
+
+		var circles2 = new ORBS.obj({type: mesh, drawType: circle, name: "circle2"})
+		circles2.drawFunc({x: window.innerWidth/20, y: window.innerHeight-100, width: 50, color: "cornflowerblue"})
+		circles2.attachScript(bounce)
+		circles2.setVars("yMove", 1.3)
+		circles2.setVars("xMove", -1.3)
+		scene.add(circles2)
+
+		var rects = new ORBS.obj({type: mesh, drawType: rect, name: "rect"})
+		rects.drawFunc({x: window.innerWidth/20, y: window.innerHeight/3, width: 100, height: 100, color: "crimson"})
+		rects.attachScript(rbounce)
+		rects.setVars("yMove", 6)
+		rects.setVars("xMove", 6)
+		scene.add(rects)
+
+		var rects2 = new ORBS.obj({type: mesh, drawType: rect, name: "rect2"})
+		rects2.drawFunc({x: (window.innerWidth/10)*9, y: window.innerHeight-100, width: 100, height: 100, color: "orange"})
+		rects2.attachScript(rbounce)
+		rects2.setVars("yMove", -6)
+		rects2.setVars("xMove", -6)
+		scene.add(rects2)
+
+		renderer.setSize(window.innerWidth, window.innerHeight)
+		renderer.canvasAttactToDom(document.querySelector('#back'), "prepend")
+		renderer.startRenderCycle()
+		renderer.setScene(scene)
+
+		window.onresize = () => renderer.setSize(window.innerWidth, window.innerHeight)
+	</script>
+</body>
+</html>
