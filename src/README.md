@@ -11,7 +11,7 @@
 ![npm version](https://img.shields.io/npm/v/orbs-js?logo=npm)
 ![GitHub](https://img.shields.io/github/license/imagineeeinc/orbs-js?logo=github)
 
-a fast lightweight 2D library that works across a lot of devices. Orbs js renders using HTML5 canvas for more compatibility.
+Create beautiful 2D content for the web with a fast lightweight 2D library that works across a lot of devices using HTML5 canvas for the most compatibility.
 
 ## What to Use Orbs js for and When to Use It
 
