@@ -12,13 +12,20 @@
 			font-family: comfortaa ,-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 			font-weight: 900;
 		}
+		* {
+			transition-duration: .2s;
+			outline: none;
+		}
 		header {
-			--pad: 40vh;
-			padding-top: var(--pad);
-			padding-bottom: calc(var(--pad) + 10vh);
+			--pad: 30vh;
+			margin-top: var(--pad);
+			margin-bottom: calc(var(--pad) + 30vh);
+			padding: 60px;		
 			text-align: center;
 			color: white;
 			letter-spacing: 1px;
+			backdrop-filter: blur(3px);
+			border-radius: 50px;
 		}
 		#back {
 			position: fixed;
@@ -28,7 +35,131 @@
 		}
 		section {
 			padding: 10vw;
+			backdrop-filter: blur(30px);
+			color: white;
+		}
+		#foot {
+			padding: 1vw;
+			color: black;
 			background: white;
+
+			display: grid;
+			gap: 0px 0px;
+			grid-auto-flow: row;
+			justify-content: center;
+			align-items: center;
+		}
+		@media only screen and (max-width: 400px) {
+			#foot {
+				grid-template-columns: 1fr;
+				grid-template-rows: 1fr 1fr;
+			}
+		}
+		@media only screen and (min-width: 401px) {
+			#foot {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+		.bg {
+			background: white;
+			color: black;
+		}
+		@media only screen and (max-width: 930px) {
+			#points {
+				grid-template-columns: 1fr;
+				grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+			}
+		}
+		@media only screen and (min-width: 931px) {
+			#points {
+				grid-template-columns: 1fr 1fr 1fr;
+				grid-template-rows: 1fr 1fr;
+			}
+		}
+		#points {
+			display: grid;
+			gap: 0px 0px;
+			grid-auto-flow: row;
+			justify-content: center;
+			align-items: center;
+		}
+		#points > div {
+			text-align: center;
+			background-color: rgb(247, 247, 247);
+			border-radius: 8px;
+			margin: 10px;
+			padding: 5px;
+			min-height: 125px;
+		}
+		#points > div > p {
+			font-size: small;
+			color: rgb(59, 59, 59);
+			line-height: 18px;
+		}
+		#points > div:hover {
+			box-shadow: 0 5px 10px lightgrey;
+		}
+		@media only screen and (max-width: 630px) {
+			#fea {
+				grid-template-columns: 1fr;
+			}
+		}
+		@media only screen and (min-width: 631px) {
+			#fea {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+		#fea {
+			display: grid;
+			gap: 0px 0px;
+			grid-auto-flow: row;
+			justify-content: center;
+			align-items: center;
+		}
+		#fea > div {
+			text-align: center;
+			border-radius: 8px;
+			margin: 10px;
+			padding: 5px;
+			min-height: 125px;
+		}
+		#fea > div > p {
+			font-size: small;
+			color: rgb(136, 136, 136);
+			line-height: 18px;
+		}
+		#fea > div:hover {
+			box-shadow: 0 5px 10px rgb(21, 0, 36);
+			background-color: rgba(59, 0, 107, 0.05);
+		}
+		a {
+			color: slateblue;
+		}
+		.scroll {
+			animation: down 1.5s infinite;
+			-webkit-animation: down 1.5s infinite;
+		}
+		@keyframes down {
+			0% {
+			transform: translateY(0);
+			}
+			20% {
+			transform: translateY(15px);
+			}
+			40% {
+			transform: translateY(0);
+			}
+		}
+		@-webkit-keyframes down {
+			0% {
+			transform: translateY(0);
+			}
+			20% {
+			transform: translateY(15px);
+			}
+			40% {
+			transform: translateY(0);
+			}
 		}
 	</style>
 	<script src="https://bundle.run/orbs-js@1.3.2"></script>
@@ -37,15 +168,161 @@
 	<div id="back"></div>
 	<main>
 		<header>
+			<img src="orbs.png" width="120px">
+			<br>
 			<h1>
 				Orbs JS
 			</h1>
 			<h4>
 				Create beautiful 2D content for the web
 			</h4>
+			<span>
+				<a href="https://github.com/imagineeeinc/orbs-js" target="_blank"><img src="homepage/icons/gh.png"></a>
+			</span>
 		</header>
-		<section>
-			page in progress...
+		<section class="bg">
+			<div id="points">
+				<div>
+					<h2>1. Fluid</h2>
+					<p>
+						Fluid & smooth rendering, with Delta Time and variable FPS.
+					</p>
+				</div>
+				<div>
+					<h3>2. Robust</h3>
+					<p>
+						Robust API, with bunch of features.
+					</p>
+				</div>
+				<div>
+					<h3>3. Elegant</h3>
+					<p>
+						Elegantly designed to just work, no overhead setup, write less code and easy to learn.
+					</p>
+				</div>
+				<div>
+					<h3>4. Batteries Included</h3>
+					<p>
+						Every thing you need to make interactive content with scenes systems, input system, camera system and more...
+					</p>
+				</div>
+				<div>
+					<h3>5. Flexible</h3>
+					<p>
+						Multiplatform support and features to cater multiple needs
+					</p>
+				</div>
+				<div>
+					<h3>6. Free</h3>
+					<p>
+						And lastly Orbs JS is open source and free. And all ways be.
+					</p>
+				</div>
+			</div>
+		</section>
+		<section style="text-align: center;">
+			<h2>Amazing Feature Set</h2>
+			<img src="homepage/icons/multiplatform.png" width="75%" style="border-radius: 20px">
+			<div id="fea">
+				<div>
+					<h2>Multi Platform</h2>
+					<p>
+						Interactive content on desktop, mobile and beyond,
+						all creatable with one library.
+					</p>
+				</div>
+				<div>
+					<h3>Easy API</h3>
+					<p>
+						Designed to be simple and easy to pick up.
+						Developers will find them selves flying through development with its simple yet powerful API.
+					</p>
+				</div>
+				<div>
+					<h3>Interactivity</h3>
+					<p>
+						Easy interactive API to make interactive content with mouse events and more.
+					</p>
+				</div>
+				<div>
+					<h3>Images</h3>
+					<p>
+						Simple to use image system with caching and storage.
+					</p>
+				</div>
+				<div>
+					<h3>Rendering</h3>
+					<p>
+						Render using <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API" target="_blank">HTML5 Canvas</a>
+						to get more compatibility across browsers.
+					</p>
+				</div>
+				<div>
+					<h3>Scenes</h3>
+					<p>
+						Scenes that are not possible with vanilla canvas without big setups,
+						is now available at your fingertips.
+					</p>
+				</div>
+				<div>
+					<h3>Scriptable</h3>
+					<p>
+						Write scripts for each object with component based scripting.
+						Update their state on each frame with scripts.
+					</p>
+				</div>
+				<div>
+					<h3>Less Code</h3>
+					<p>
+						Less over head to setup, less code to write, yet more power. 
+					</p>
+				</div>
+				<div>
+					<h3>Portability</h3>
+					<p>
+						Small in size, available on cdns and npm.
+					</p>
+				</div>
+				<div>
+					<h3>Powerful Rendering</h3>
+					<p>
+						A custom rendering engine (named Cave Engine, a proprietary engine) used to render, 
+						scripting, delta time, shaders (canvas filters) and camera movement.
+					</p>
+				</div>
+				<div>
+					<h3>Objects</h3>
+					<p>
+						Objects can be sprites, predefined shapes like: rectangles, circles; 
+						they can also be custom shapes defined by you (you can make curved lines) and lines.
+					</p>
+				</div>
+				<div>
+					<h3>Text</h3>
+					<p>
+						Use fully customizable text with font, size and colours.
+					</p>
+				</div>
+			</div>
+		</section>
+		<section id="foot">
+			<div style="text-align: center;">
+				<img src="orbs.png" width="40px">
+				<br><br>
+				Orbs JS built with love by <a href="https://imagineeeinc.github.io" target="_blank">Imagineee</a>.
+				<br><br>
+				<a href="https://github.com/imagineeeinc/orbs-js/" target="_blank">Github</a>
+				<br>
+				<a href="https://www.npmjs.com/package/orbs-js" target="_blank">npm</a>
+				<br>
+				<a href="https://github.com/imagineeeinc/orbs-js/blob/main/LICENSE" target="_blank">License</a>
+			</div>
+			<div style="text-align: center;">
+				<img src="https://imagineeeinc.github.io/icon/user.png" style="width: 35px; border-radius: 75px; border: 2px solid slateblue;">
+				<br>
+				©<script>document.write(new Date().getFullYear())</script> 
+				<a href="https://imagineeeinc.github.io" target="_blank">Imagineee</a>. All Rights Reserved
+			</div>
 		</section>
 	</main>
 	<script>
