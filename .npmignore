@@ -1,4 +1,5 @@
 ./test
+./example-games
 todo.txt
 src/drawFuncLegacy.js
 */*.min.js

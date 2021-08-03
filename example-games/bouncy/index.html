@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bouncy</title>
+
+    <script src="https://bundle.run/orbs-js@1.3.2"></script>
+</head>
+<body>
+    <script>
+        const {orbsCore, components} = orbsJs
+        const orbsComponents = components.components
+        const {ORBS, update, mesh, rect, circle, Vect, down} = orbsCore
+        //set css for full screen canvas
+        ORBS.setFullScreenGameCss()
+        //initiate a new renderer
+        var renderer = new ORBS.renderer({renderState: update, bgColor: "crimson", fps: 40, width: window.innerWidth, height: window.innerHeight})
+        //create a new scene
+        var scene = new ORBS.scene()
+        //new script component
+        var script = new ORBS.scriptComponent(function(self,im,ot) {
+            if (self.draging != true) {
+                if (self.y > ot.screen.height - 50) {
+                    self.yMove = -10*ot.delta
+                }
+                if (self.y < 50) {
+                    self.yMove = 10*ot.delta
+                }
+                if (self.x > ot.screen.width - 50) {
+                    self.xMove = -10*ot.delta
+                }
+                if (self.x < 50) {
+                    self.xMove = 10*ot.delta
+                }
+                self.dx = self.xMove
+                self.dy = self.yMove
+            } else {
+
+            }
+            if (self.events.mouse.primaryBtn == down) {
+                self.scale = 1.1
+                window.dispatchEvent(objClick)
+            } else {
+                self.scale = 1
+            }
+            return self
+        })
+        var rects = new ORBS.obj({type: mesh, drawType: rect, name: "circle"})
+        //set the mesh to 100 by 100@50, 50 with pink color
+        rects.drawFunc({x: 50, y: 50, width: 50, height: 50, color: "pink"})
+        //attach the script to the object
+        rects.attachScript(script)
+        //rects.attachScript(orbsComponents.dragableObject())
+        //set varible 'yMove' to '3' of object 'rects'
+        rects.setVars("yMove", 3)
+        //set varible 'xMove' to '3' of object 'rects'
+        rects.setVars("xMove", 3)
+        window.addEventListener('objClick', e =>{
+            let r = new ORBS.obj({type: mesh, drawType: rect, name: "circle"})
+            //set the mesh to 100 by 100@50, 50 with pink color
+            console.log(e)
+            r.drawFunc({x: scene.vScene[0].x, y: scene.vScene[0].y, width: 50, height: 50, color: random()})
+            //attach the script to the object
+            r.attachScript(script)
+            //rects.attachScript(orbsComponents.dragableObject())
+            //set varible 'yMove' to '3' of object 'rects'
+            r.setVars("yMove", 3)
+            //set varible 'xMove' to '3' of object 'rects'
+            r.setVars("xMove", 3)
+            scene.vScene[0] = r
+        }, false)
+        //add the 'rects' object to the scene
+        scene.add(rects)
+        const objClick = new Event('objClick', { detail: scene.vScene[0] })
+        //set the renderers dimensions
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        //prepend the canvas to the body of the html and setup event listeners
+        renderer.canvasAttactToDom(document.body, "prepend")
+        //start the render pipeline
+        renderer.startRenderCycle()
+        //add the scene to the renderer
+        renderer.setScene(scene)
+
+        function random() {
+            //preview
+            var r = Math.round(Math.floor(Math.random() * 255) + 0);
+            var g = Math.round(Math.floor(Math.random() * 255) + 0);
+            var b = Math.round(Math.floor(Math.random() * 255) + 0);
+            return `rgb(${r}, ${g}, ${b})`
+        }
+    </script>
+</body>
+</html>
