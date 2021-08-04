@@ -497,6 +497,7 @@
       image.src = url
       this.img = image
       this.name = name
+      this.url = url
     }
   }
   const ORBS = {
