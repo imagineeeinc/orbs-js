@@ -23,16 +23,16 @@
         var script = new ORBS.scriptComponent(function(self,im,ot) {
             if (self.draging != true) {
                 if (self.y > ot.screen.height - 50) {
-                    self.yMove = -10*ot.delta
+                    self.yMove = -self.yMove
                 }
                 if (self.y < 50) {
-                    self.yMove = 10*ot.delta
+                    self.yMove = self.yMove
                 }
                 if (self.x > ot.screen.width - 50) {
-                    self.xMove = -10*ot.delta
+                    self.xMove = -self.xMove
                 }
                 if (self.x < 50) {
-                    self.xMove = 10*ot.delta
+                    self.xMove = self.xMove
                 }
                 self.dx = self.xMove
                 self.dy = self.yMove

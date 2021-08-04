@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glow Squid</title>
+
+    <script src="https://bundle.run/orbs-js@1.3.3"></script>
+</head>
+<body>
+    <script>
+        const {orbsCore, components} = orbsJs
+        const orbsComponents = components.components
+        const {ORBS, update, mesh, rect, circle, Vect, down, img, sprite} = orbsCore
+        //set css for full screen canvas
+        ORBS.setFullScreenGameCss()
+        //initiate a new renderer
+        var renderer = new ORBS.renderer({renderState: update, bgColor: "black", fps: 40, width: window.innerWidth, height: window.innerHeight})
+        //create a new scene
+        var scene = new ORBS.scene()
+        renderer.addToImgCache(new ORBS.Sprite("https://plus.minecraft.net/glowsquid.gif"), "squid")
+        //new script component
+        var frame
+        var script = new ORBS.scriptComponent(function(self,im,ot) {
+            var myGif// = GIF();
+            //myGif.load(self.tex.url)
+            //https://www.npmjs.com/package/gif-frames for gif extract
+            return self
+        })
+        var image = new ORBS.obj({type: sprite, name: "img"})
+        image.drawFunc({x: window.innerWidth/2, y: 100, width: 189, height: 189, tex: renderer.imgStore.squid, dx: 0.01})
+        image.attachScript(script)
+        scene.add(image)
+        //set the renderers dimensions
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        //prepend the canvas to the body of the html and setup event listeners
+        renderer.canvasAttactToDom(document.body, "prepend")
+        //start the render pipeline
+        //renderer.startRenderCycle()
+        //add the scene to the renderer
+        renderer.setScene(scene)
+
+        function random() {
+            //preview
+            var r = Math.round(Math.floor(Math.random() * 255) + 0);
+            var g = Math.round(Math.floor(Math.random() * 255) + 0);
+            var b = Math.round(Math.floor(Math.random() * 255) + 0);
+            return `rgb(${r}, ${g}, ${b})`
+        }
+    </script>
+</body>
+</html>
