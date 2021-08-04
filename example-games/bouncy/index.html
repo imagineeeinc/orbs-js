@@ -47,6 +47,7 @@
             }
             return self
         })
+        var minMove = 1
         var rects = new ORBS.obj({type: mesh, drawType: rect, name: "circle"})
         //set the mesh to 100 by 100@50, 50 with pink color
         rects.drawFunc({x: 50, y: 50, width: 50, height: 50, color: "pink"})
@@ -54,21 +55,22 @@
         rects.attachScript(script)
         //rects.attachScript(orbsComponents.dragableObject())
         //set varible 'yMove' to '3' of object 'rects'
-        rects.setVars("yMove", 3)
+        rects.setVars("yMove", Math.round(Math.floor(Math.random() * minMove+3) + minMove))
         //set varible 'xMove' to '3' of object 'rects'
-        rects.setVars("xMove", 3)
+        rects.setVars("xMove", Math.round(Math.floor(Math.random() * minMove+3) + minMove))
         window.addEventListener('objClick', e =>{
             let r = new ORBS.obj({type: mesh, drawType: rect, name: "circle"})
             //set the mesh to 100 by 100@50, 50 with pink color
             console.log(e)
-            r.drawFunc({x: scene.vScene[0].x, y: scene.vScene[0].y, width: 50, height: 50, color: random()})
+            r.drawFunc({x: Math.round(Math.floor(Math.random() * window.innerWidth-50) + 50), y: Math.round(Math.floor(Math.random() * window.innerHeight-50) + 50), width: 50, height: 50, color: random()})
             //attach the script to the object
             r.attachScript(script)
             //rects.attachScript(orbsComponents.dragableObject())
             //set varible 'yMove' to '3' of object 'rects'
-            r.setVars("yMove", 3)
+            r.setVars("yMove", Math.round(Math.floor(Math.random() * minMove+3) + minMove))
             //set varible 'xMove' to '3' of object 'rects'
-            r.setVars("xMove", 3)
+            r.setVars("xMove", Math.round(Math.floor(Math.random() * minMove+3) + minMove))
+            minMove+= 0.25
             scene.vScene[0] = r
         }, false)
         //add the 'rects' object to the scene
