@@ -179,10 +179,10 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 if you are looking for deno you can use the skypack url: `https://cdn.skypack.dev/orbs-js?dts`. for skypack usage go [here](#cdn-install-via-skypack)
 
 Or the deno.land/x package:
-- [Core Engine](https://deno.land/x/orbs_js@1.3.1.2.1/orbs.js)
-- [Core Engine (minified)](https://deno.land/x/orbs_js@1.3.1.2.1/orbs.min.js)
-- [components](https://deno.land/x/orbs_js@1.3.1.2.1/orbs.components.js)
-- [components (minified)](https://deno.land/x/orbs_js@1.3.1.2.1/orbs.components.min.js)
+- [Core Engine](https://deno.land/x/orbs_js/orbs.js)
+- [Core Engine (minified)](https://deno.land/x/orbs_js/orbs.min.js)
+- [components](https://deno.land/x/orbs_js/orbs.components.js)
+- [components (minified)](https://deno.land/x/orbs_js/orbs.components.min.js)
 [usage for deno.land x package](#usage-for-all-of-the-above)
 
 ## Demos
