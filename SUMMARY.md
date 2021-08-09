@@ -1,4 +1,4 @@
 # Table of contents
 
-* [Orbs JS](README.md)
+* [obs-js](README.md)
 

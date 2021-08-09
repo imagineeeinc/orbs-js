@@ -1,10 +1,10 @@
-# Orbs JS
+# obs-js
 
 #### NOTE: DOCUMENTION IN PROGRESS
 
- [![](https://camo.githubusercontent.com/f8d1b4095d5ab1f3d3886f09e567d4cd981534cbbceb3b0eea9aa341f8fe6075/68747470733a2f2f696d6167696e656565696e632e6769746875622e696f2f6f7262732d6a732f6f7262732e706e67)](https://camo.githubusercontent.com/f8d1b4095d5ab1f3d3886f09e567d4cd981534cbbceb3b0eea9aa341f8fe6075/68747470733a2f2f696d6167696e656565696e632e6769746875622e696f2f6f7262732d6a732f6f7262732e706e67)
+![](https://imagineeeinc.github.io/orbs-js/orbs.png)
 
-[![npm bundle size](https://camo.githubusercontent.com/a6a794301bb1f5d5905206d6f457489ba8b8e3d91876b8eca33b793bd282e710/68747470733a2f2f696d672e736869656c64732e696f2f62756e646c6570686f6269612f6d696e2f6f7262732d6a733f6c6f676f3d6e706d)](https://camo.githubusercontent.com/a6a794301bb1f5d5905206d6f457489ba8b8e3d91876b8eca33b793bd282e710/68747470733a2f2f696d672e736869656c64732e696f2f62756e646c6570686f6269612f6d696e2f6f7262732d6a733f6c6f676f3d6e706d) [![npm downloads](https://camo.githubusercontent.com/b538a40742051f7f7655959106816e3920deeefc3c979cf2e39ed1c68d7292f2/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f646d2f6f7262732d6a733f6c6f676f3d6e706d)](https://camo.githubusercontent.com/b538a40742051f7f7655959106816e3920deeefc3c979cf2e39ed1c68d7292f2/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f646d2f6f7262732d6a733f6c6f676f3d6e706d) [![npm version](https://camo.githubusercontent.com/a8d0b3776a60c40a85c776381b71e403f2d2c0e5b24561e8b46d6b616c3188a8/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f6f7262732d6a733f6c6f676f3d6e706d)](https://camo.githubusercontent.com/a8d0b3776a60c40a85c776381b71e403f2d2c0e5b24561e8b46d6b616c3188a8/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f6f7262732d6a733f6c6f676f3d6e706d) [![GitHub](https://camo.githubusercontent.com/12329878d77298a41e71afb03b0f655f479653667964058889091b441619aae4/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f696d6167696e656565696e632f6f7262732d6a733f6c6f676f3d676974687562)](https://camo.githubusercontent.com/12329878d77298a41e71afb03b0f655f479653667964058889091b441619aae4/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f696d6167696e656565696e632f6f7262732d6a733f6c6f676f3d676974687562)
+![npm bundle size](https://img.shields.io/bundlephobia/min/orbs-js?logo=npm) ![npm downloads](https://img.shields.io/npm/dm/orbs-js?logo=npm) ![npm version](https://img.shields.io/npm/v/orbs-js?logo=npm) ![GitHub](https://img.shields.io/github/license/imagineeeinc/orbs-js?logo=github)
 
 Create beautiful 2D content for the web with a fast lightweight 2D library that works across a lot of devices using HTML5 canvas for the most compatibility.
 
@@ -26,45 +26,85 @@ Orbs js can be installed simply using a content delivery network \(CDN\) URL to 
 
 | Inatalation Options | Type | Description | Instaling | Usage |
 | :--- | :--- | :--- | :--- | :--- |
-| JsDeliver | CDN | Simplest, for beginers, components avalible \(Browser\) | [learn to install here]() | [Learn to use here]() |
-| UNPKG | CDN | Complex, use if you know what you want to do, componets avalible \(Browser\) | [leran to install here]() | [Learn to use here]() |
-| Download | downloaded | Easy, just download and use in your project \(Browser, Node js, Deno\) | [leran to install here]() | [Learn to use here]() |
-| Bundle.run | CDN | Simple, for people who know how to use js import staments; has components and core in one import \(Browser\) | [learn to install and use here]() | [learn to install and use here]() |
-| Skypack | CDN | Kind of complex, components not working, for people who like complex cdns \(Browser\) | [learn to install and use here]() | [learn to install and use here]() |
-| Npm module | module | For usage in node js projects \(node js projects, browser\[kind of\]\) | [learn to install and use here]() | [learn to install and use here]() |
-| Deno module | module | For usage in deno projects \(deno projects\) | [learn to install here]() | [Learn to use here]() |
+| JsDeliver | CDN | Simplest, for beginers, components avalible \(Browser\) | [learn to install here](./#cdn-install-via-jsdeliver) | [Learn to use here](./#usage-for-all-of-the-above) |
+| UNPKG | CDN | Complex, use if you know what you want to do, componets avalible \(Browser\) | [leran to install here](./#cdn-install-via-unpkg) | [Learn to use here](./#usage-for-all-of-the-above) |
+| Download | downloaded | Easy, just download and use in your project \(Browser, Node js, Deno\) | [leran to install here](./#download) | [Learn to use here](./#usage-for-all-of-the-above) |
+| Bundle.run | CDN | Simple, for people who know how to use js import staments; has components and core in one import \(Browser\) | [learn to install and use here](./#cdn-install-via-bundlerun) | [learn to install and use here](./#cdn-install-via-bundlerun) |
+| Skypack | CDN | Kind of complex, components not working, for people who like complex cdns \(Browser\) | [learn to install and use here](./#cdn-install-via-skypack) | [learn to install and use here](./#cdn-install-via-skypack) |
+| Npm module | module | For usage in node js projects \(node js projects, browser\[kind of\]\) | [learn to install and use here](./#npm-module-available-at-npm) | [learn to install and use here](./#npm-module-available-at-npm) |
+| Deno module | module | For usage in deno projects \(deno projects\) | [learn to install here](./#for-deno) | [Learn to use here](./#usage-for-all-of-the-above) |
 
 ### CDN Install \(via jsdeliver\)
 
 _**Simplest Install**_
 
- "&gt;
+```markup
+<!--For Development-->
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.js"></script>
 
-```text
+<!--For production(recommended for speed)-->
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.js">script>
-
-
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.min.js">script>
-
-
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.components.js">script>
-
-<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.components.min.js">script>
+<!--For official components provided-->
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.components.js"></script>
+<!--Minified-->
+<script src="https://cdn.jsdelivr.net/gh/imagineeeinc/orbs-js/src/orbs.components.min.js"></script>
 ```
 
 ### CDN Install \(via unpkg\)
 
- "&gt;
+```markup
+<!--for the js file-->
+<!--Recomended for browser-->
+<script src="https://unpkg.com/orbs-js@1.3.1/src/orbs.js" />
 
-```text
+<!--components-->
+<script src="https://unpkg.com/orbs-js@1.3.1/src/orbs.components.js" />
 
-<script src="https://bundle.run/orbs-js@1.3.2">script>
+<!--for npm file-->
+<script src="https://unpkg.com/orbs-js@1.3.1/npm/orbs.js" />
+```
+
+### Download
+
+Simply download any of the files bellow and include in your project
+
+* [Core Engine](https://raw.githubusercontent.com/imagineeeinc/orbs-js/main/src/orbs.js)
+* [Core Engine \(minified\)](https://raw.githubusercontent.com/imagineeeinc/orbs-js/main/src/orbs.min.js)
+* [Components](https://raw.githubusercontent.com/imagineeeinc/orbs-js/main/src/orbs.components.js)
+* [Component \(minified\)](https://raw.githubusercontent.com/imagineeeinc/orbs-js/main/src/orbs.components.min.js)
+
+**Add any of these to the head of the html depending on what you need**
+
+### Usage \(for all of the above\)
+
+**To import in JavaScript \(and deno\)**
+
+use the import variables like this:
+
+```javascript
+// swap the values in the currly braces for what you need to import
+// make sure to use the orbsCore to import from, or it won't work
+const {ORBS, update, mesh, rect, circle, Vect, customMesh, lineRndr, down, sprite, text, plainText} = orbsCore
+
+// This is all you need for components (make sure the libary is imported in the head of the documnet)
+const {components} = orbsComponents
+```
+
+NOTE: do not import the files straight into your js file, you have to include it in the head of your html.
+
+### CDN Install \(via Bundle.run\)
+
+**This is one of the efficient yet easy way**
+
+```markup
+<!--add this to your head-->
+<script src="https://bundle.run/orbs-js@1.3.2"></script>
 ```
 
 easily import in your js with this:
 
-```text
+```javascript
 // Import 'orbsCore' and 'components' if needed from 'orbsJs'
 // make sure to include the bunde.run url in the head
 const {orbsCore, components} = orbsJs
@@ -79,13 +119,13 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 
 **Use import like this in your js**
 
-```text
+```javascript
 import orbsJs from 'https://cdn.skypack.dev/orbs-js';
 ```
 
 **And Import the the functions and values like this**
 
-```text
+```javascript
 // swap the values in the currly braces for what you need to import
 const {ORBS, update, mesh, rect, Vect, down} = orbsJs
 
@@ -94,7 +134,7 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsJs
 
 full example for skypack:
 
-```text
+```javascript
 // importing the orbs js libary from skypack
 import orbsJs from 'https://cdn.skypack.dev/orbs-js/';
 
@@ -106,7 +146,7 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsJs
 
 install using the bellow in the command line to add to your project.
 
-```text
+```bash
 # npm
 npm i orbs-js
 
@@ -116,7 +156,7 @@ yarn add orbs-js
 
 **Usage in your js file**
 
-```text
+```javascript
 // use the 'orbsCore' to import the main liabry and 'components' import the components
 const {orbsCore, components} = require('orbs-js')
 
@@ -128,14 +168,16 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 
 ### For Deno
 
-if you are looking for deno you can use the skypack url: `https://cdn.skypack.dev/orbs-js?dts`. for skypack usage go [here]()
+if you are looking for deno you can use the skypack url: `https://cdn.skypack.dev/orbs-js?dts`. for skypack usage go [here](./#cdn-install-via-skypack)
 
 Or the deno.land/x package:
 
 * [Core Engine](https://deno.land/x/orbs_js/orbs.js)
 * [Core Engine \(minified\)](https://deno.land/x/orbs_js/orbs.min.js)
 * [components](https://deno.land/x/orbs_js/orbs.components.js)
-* [components \(minified\)](https://deno.land/x/orbs_js/orbs.components.min.js) [usage for deno.land x package]()
+* [components \(minified\)](https://deno.land/x/orbs_js/orbs.components.min.js)
+
+  [usage for deno.land x package](./#usage-for-all-of-the-above)
 
 ## Demos
 
@@ -172,7 +214,7 @@ Or the deno.land/x package:
 
 ## Basic Usage/ example
 
-```text
+```javascript
 //import functions and values needed
 //use 'orbsJs' instead of 'orbsCore' if using skypack
 //if using bundle.run use the import core statment first which is bellow \/
@@ -202,7 +244,7 @@ var script = new ORBS.scriptComponent(function(self,im,ot) {
     self.dx = self.xMove
     self.dy = self.yMove}
     if (self.events.mouse.primaryBtn == down) {
-		self.scale = 1.1
+        self.scale = 1.1
     } else {
         self.scale = 1
     }
