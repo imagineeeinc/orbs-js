@@ -5,7 +5,8 @@
   "main": "npm/orbs.js",
   "scripts": {
     "minify": "minify src/orbs.js > src/orbs.min.js && minify src/orbs.pkg.js > src/orbs.pkg.min.js && minify src/orbs.components.js > src/orbs.components.min.js",
-    "test": "jest --watchAll --verbose"
+    "test": "jest --watchAll --verbose",
+    "pub": "npm run minify && npm publish"
   },
   "repository": {
     "type": "git",
