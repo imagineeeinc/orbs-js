@@ -225,6 +225,7 @@ Or the deno.land/x package:
 //use 'orbsJs' instead of 'orbsCore' if using skypack
 //if using bundle.run use the import core statment first which is bellow \/
 //const {orbsCore} = orbsJs
+//NOTE: 'orbsCore' i geting deperected in the next release.
 const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 //set css for full screen canvas
 ORBS.setFullScreenGameCss()
