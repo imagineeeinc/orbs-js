@@ -180,11 +180,12 @@ const {ORBS, update, mesh, rect, Vect, down} = orbsCore
 if you are looking for deno you can use the skypack url: `https://cdn.skypack.dev/orbs-js?dts`. for skypack usage go [here](#cdn-install-via-skypack)
 
 Or the deno.land/x package:
+
 - [Core Engine](https://deno.land/x/orbs_js/orbs.js)
 - [Core Engine (minified)](https://deno.land/x/orbs_js/orbs.min.js)
 - [components](https://deno.land/x/orbs_js/orbs.components.js)
 - [components (minified)](https://deno.land/x/orbs_js/orbs.components.min.js)
-[usage for deno.land x package](#usage-for-all-of-the-above)
+  [usage for deno.land x package](#usage-for-all-of-the-above)
 
 ## Demos
 
@@ -260,7 +261,7 @@ var script = new ORBS.scriptComponent(function(self,im,ot) {
 //create a object named 'rect'
 var rects = new ORBS.obj({type: mesh, drawType: rect, name: "rect"})
 //set the mesh to 100 by 100@50, 50 with pink color
-rects.drawFunc({x: 50, y: 50, width: 100, height: 100, color: "pink"})
+rects.vars({x: 50, y: 50, width: 100, height: 100, color: "pink"})
 //attach the script to the object
 rects.attachScript(script)
 //set varible 'yMove' to '3' of object 'rects'
@@ -569,4 +570,3 @@ renderer.setScene(scene)
 ## License
 
 This content is released under the [MIT License](http://opensource.org/licenses/MIT).
->>>>>>> 3101545b69f01e8c644cd1a9ae67de0b747e194f
