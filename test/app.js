@@ -28,10 +28,15 @@ var script = new ORBS.scriptComponent(function(self,im,ot) {
     } else {
         self.scale = 1
     }
+    if(self.collision) {
+        console.log(self.collision)
+    }
     return self
 })
+scene.collisionLayerSet("boxes")
 var rects = new ORBS.obj({type: mesh, drawType: rect, name: "rect"})
-rects.drawFunc({x: 50, y: 50, width: 100, height: 100, color: "pink"})
+//                                                                the layer of collision   hitbox options  hitbox shape  width  height    center
+rects.vars({x: 50, y: 50, width: 100, height: 100, color: "pink", collisionLayer: "boxes", hitbox: {shape: rect, width: 100, height: 100, center: [0,0]}})
 rects.attachScript(script)
 rects.attachScript(orbComponents.dragableObject())
 rects.setVars("yMove", 3)
@@ -71,7 +76,7 @@ script2.attachScript(function(self, open, other) {
 })
 script2.imports(function() {return window.scene.getObj("rect")})
 var rects2 = new ORBS.obj({type: mesh, drawType: rect, name: "rect2"})
-rects2.drawFunc({ x: window.innerWidth-50, y: 50, width: 100, height: 100, color: "lightblue"})
+rects2.vars({ x: window.innerWidth-50, y: 50, width: 100, height: 100, color: "lightblue", collisionLayer: "boxes", hitbox: {shape: rect, width: 100, height: 100, center: [0,0]}})
 rects2.attachScript(script2)
 rects2.attachScript(orbComponents.dragableObject())
 rects2.setVars("yMove", -3)
@@ -109,7 +114,7 @@ scriptCircle.attachScript(function(self, im, ot) {
     return self
 })
 var circles = new ORBS.obj({type: mesh, drawType: circle, name: "theCircle"})
-circles.drawFunc({x: window.innerWidth/2, y: 0, width: 50, color: "orange"})
+circles.vars({x: window.innerWidth/2, y: 0, width: 50, color: "orange"})
 circles.attachScript(scriptCircle)
 circles.attachScript(orbComponents.dragableObject())
 circles.setVars("yMove", 0)
@@ -127,7 +132,7 @@ linescript.attachScript(function(self, open, ot) {
 })
 linescript.imports(function() {return window.scene.getObj("rect")})
 lineObj.attachScript(linescript)
-lineObj.drawFunc({x: Vect(1,1), y: Vect(100,100), width: 10, color: "#0080a1"})
+lineObj.vars({x: Vect(1,1), y: Vect(100,100), width: 10, color: "#0080a1"})
 
 scene.add(lineObj)
 
@@ -144,7 +149,7 @@ custShader.attachScript(function(ctx, imps, others) {
     ctx.fillStyle = "springgreen"
     ctx.fillRect(25, 5, 340, 70)
 })
-custMesh.drawFunc({meshShader: custShader})
+custMesh.vars({meshShader: custShader})
 scene.add(custMesh)
 
 console.log(renderer)
@@ -158,16 +163,16 @@ renderer.startRenderCycle()
 renderer.setScene(scene)
 
 var image = new ORBS.obj({type: sprite, name: "img"})
-image.drawFunc({x: window.innerWidth/2, y: 100, width: 189, height: 189, sprite: renderer.imgStore.pickquick, dx: 0.01})
+image.vars({x: window.innerWidth/2, y: 100, width: 189, height: 189, sprite: renderer.imgStore.pickquick, dx: 0.01})
 image.attachScript(orbComponents.dragableObject())
 scene.add(image)
 var txt = new ORBS.obj({type: text, drawType: plainText, name: "theTxt",
-drawFunc: {x: 30, y: 35, txt: "Orbs JS Test Suite", font: "35px Verdana", color: "orange", scale: 1}
+vars: {x: 30, y: 35, txt: "Orbs JS Test Suite", font: "35px Verdana", color: "orange", scale: 1}
 })
 scene.add(txt)
 
 var txt2 = new ORBS.obj({type: text, drawType: plainText, name: "theTxt",
-drawFunc: {x: 30, y: 60, txt: "wow, thats really cool", font: "20px Verdana", color: "maroon", scale: .5}
+vars: {x: 30, y: 60, txt: "wow, thats really cool", font: "20px Verdana", color: "maroon", scale: .5}
 })
 
 scene.add(txt2)

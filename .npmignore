@@ -1,8 +1,18 @@
-./test
-./example-games
-todo.txt
-src/drawFuncLegacy.js
-*/*.min.js
-*.test.js
+# Dirs
 ./.vscode
+./.github
+./core
+./example-games
+./homepage
+./oldDevSystem
+./test
+# files
 */*.vsix
+./.babelrc
+./bundle.js
+./index.html
+./jsconfig.jsconfig
+./orbs.png
+./todo.txt
+src/orbs.js
+src/orbs.components.js

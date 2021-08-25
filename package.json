@@ -1,11 +1,15 @@
 {
   "name": "orbs-js",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "a fast lightweight 2D library that works across a lot of devices. Orbs js renders using HTML5 canvas for more compatibility.",
   "main": "npm/orbs.js",
   "scripts": {
-    "minify": "minify src/orbs.js > src/orbs.min.js && minify src/orbs.pkg.js > src/orbs.pkg.min.js && minify src/orbs.components.js > src/orbs.components.min.js",
-    "test": "jest --watchAll --verbose"
+    "bundle": "node ./bundle.js",
+    "build": "npm run bundle && npm run minify",
+    "watch": "nodemon -e js --exec npm run bundle --ignore './*/orbs.js'",
+    "minify": "terser --compress --mangle -- src/orbs.js > src/orbs.min.js && terser --compress --mangle -- src/orbs.components.js > src/orbs.components.min.js",
+    "test": "jest --watchAll --verbose",
+    "pub": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",
@@ -39,9 +43,10 @@
   },
   "homepage": "https://github.com/imagineeeinc/orbs-js#readme",
   "devDependencies": {
-    "jest": "^27.0.6"
-  },
-  "dependencies": {
-    "minify": "^7.0.2"
+    "babel-cli": "*",
+    "babel-preset-es2015": "*",
+    "jest": "^27.0.6",
+    "minify": "^7.0.2",
+    "terser": "^5.7.1"
   }
 }
