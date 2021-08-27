@@ -200,8 +200,9 @@ class CaveRenderEngine {
                     !(rect1.x == rect2.x)
                   ) {
                     obj.collision.push(left);
-                    //TODO: kineamatics (basicly self moving)
-                    
+                    if (obj.collideReact == true) {
+                      obj.x -= rect1.x+rect1.width-rect2.x
+                    }
                   }
                   //Right
                   if (
@@ -213,6 +214,9 @@ class CaveRenderEngine {
                     !(rect1.x == rect2.x)
                   ) {
                     obj.collision.push(right);
+                    if (obj.collideReact == true) {
+                      obj.x += rect2.x+rect2.width-rect1.x
+                    }
                   }
                   //Top
                   if (
@@ -224,6 +228,9 @@ class CaveRenderEngine {
                     !(rect1.y == rect2.y)
                   ) {
                     obj.collision.push(up);
+                    if (obj.collideReact == true) {
+                      obj.y -= rect1.y+rect1.height-rect2.y
+                    }
                   }
                   //Bottom
                   if (
@@ -235,6 +242,9 @@ class CaveRenderEngine {
                     !(rect1.y == rect2.y)
                   ) {
                     obj.collision.push(down);
+                    if (obj.collideReact == true) {
+                      obj.y += rect2.y+rect2.height-rect1.y
+                    }
                   }
                 }
               }
@@ -724,40 +734,13 @@ class newOrbsRenderer {
       this.events.keyBoard.keyStroke = key;
     });
     document.body.addEventListener("keyup", (e) => {
-      if (this.events.keyBoard.keysDown == down) {
-        let key = "";
-        if (e.ctrlKey == true) {
-          key += "Ctrl+";
-        }
-        if (e.shiftKey == true) {
-          key += "Shift+";
-        }
-        if (e.altKey == true) {
-          key += "Shift+";
-        }
-        key += e.key
-        .replaceAll(keys.left, left)
-        .replaceAll(keys.right, right)
-        .replaceAll(keys.up, up)
-        .replaceAll(keys.down, down);
-        
-        this.events.keyBoard = {
-          key: e.key,
-          ctrlKey: e.ctrlKey,
-          shiftKey: e.shiftKey,
-          altKey: e.altKey,
-          keysDown: down
-        };
-        this.events.keyBoard.keyStroke = key;
-      } else {
-        this.events.keyBoard = {
-          key: "",
-          ctrlKey: false,
-          shiftKey: false,
-          altKey: false,
-        };
-        this.events.keyBoard.keyStroke = "";
-      }
+      this.events.keyBoard = {
+        key: "",
+        ctrlKey: false,
+        shiftKey: false,
+        altKey: false,
+      };
+      this.events.keyBoard.keyStroke = "";
     });
   }
   mouseDown() {
