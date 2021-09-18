@@ -23,6 +23,8 @@ Orbs js is written to use the [HTML5 Canvas](https://developer.mozilla.org/en-US
 
 __Documentation is still progress__
 
+Read the docs [here](https://imagineee.gitbook.io/orbs-js/) on gitbook
+
 ## Instalation/ Setup
 
 It's easy to get started with Orbs js!
