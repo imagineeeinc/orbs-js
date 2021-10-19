@@ -284,9 +284,9 @@ renderer.setScene(scene)
 
 # The Revamp
 
-A revamp will be coming to the orbs js engine that will simplisfy the creation of content as it seems to complicated to get a simple square moving on the screen. This new revamp will throw the previous project paradigm out the windows in favor for a simpler decletive method of just calling functions. This can also reduce the bundle size quite a bit, but this is the revamp of the project structure and not the rendering engine, remember that, this also allows for more customizbility of the project. The idea of the revamp also comes from [Kaboom JS](https://kaboomjs.com/), so do check it out.
+A revamp will be coming to the orbs JS engine that will simplify the creation of content as it seems to complicated to get a simple square moving on the screen. This new revamp will throw the previous project paradigm out the windows in favour for a simpler declarative method of just calling functions. This can also reduce the bundle size quite a bit, but this is the revamp of the project structure and not the rendering engine, remember that, this also allows for more customizability of the project. The idea of the revamp also comes from [Kaboom JS](https://kaboomjs.com/), so do check it out.
 
-Sorry for no docs for pre-v1.4.0 (so, after the update you have to look at the source code to understand how to use the pre-1.4.0, but I don't think its needed as the newer one will be far more efficient on time.), but as soon as the 1.05.0 releases with the new system there will be (I hate wrriting docs).
+Sorry for no docs for pre-v1.4.0 (so, after the update you have to look at the source code to understand how to use the pre-1.4.0, but I don't think its needed as the newer one will be far more efficient on time.), but as soon as the 1.05.0 releases with the new system there will be (I hate writing docs)
 
 ## License
 
