@@ -1,5 +1,5 @@
+#### NOTE: Project is dead, a succsessor coming soon...
 # obs-js
-
 #### NOTE: DOCUMENTION IN PROGRESS
 
 <p align="center">
